@@ -20,7 +20,7 @@
         </div>
     @endif
   
-    <form action="{{ route('students.update',$traffic->id) }}" method="POST">
+    <form action="{{ route('traffics.update',$traffic->id) }}" method="POST">
         @csrf
         @method('PUT')
    
@@ -30,7 +30,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Name:</strong>
-                    <input type="text" name="DateTime" value="{{ $traffic->DateTime }}" class="form-control" placeholder="DateTime">
+                    <input type="text" name="DateTime" value="{{ $traffic->DateAndTime }}" class="form-control" placeholder="DateTime">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -47,7 +47,7 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
               <button type="submit" class="btn btn-primary">Submit</button>
-                <a class="btn btn-primary" href="{{ route('traffic.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('traffics.index') }}"> Back</a>
             </div>
         </div>
    

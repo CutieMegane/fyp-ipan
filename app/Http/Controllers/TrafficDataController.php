@@ -69,7 +69,7 @@ class TrafficDataController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($traffic)
+    public function edit(traffic $traffic)
     {
         return view('traffics.edit',compact('traffic'));
     }
@@ -93,7 +93,7 @@ class TrafficDataController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($traffic)
+    public function destroy(traffic $traffic)
     {
         $traffic->delete();
         return redirect()->route('traffics.index')->with('success','Route deleted successfully');

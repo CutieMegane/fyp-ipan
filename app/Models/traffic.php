@@ -12,7 +12,7 @@ class traffic extends Model
     public $table = 'traffic_data';
 
     protected $fillable = [
-        'DateTime',
+        'DateAndTime',
         'Junction',
         'Vehicles',
         'number',

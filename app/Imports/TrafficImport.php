@@ -15,7 +15,7 @@ class TrafficImport implements ToModel
     public function model(array $row)
     {
         return new traffic([
-            'DateTime' => $row[0],
+            'DateAndTime' => $row[0],
             'Junction' => $row[1],
             'Vehicles' => $row[2],
             'number' => $row[3],

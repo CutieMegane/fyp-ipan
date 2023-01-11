@@ -26,8 +26,8 @@
      <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-12">
             <div class="form-group">
-                <strong>DateTime:</strong>
-                <input type="text" name="DateTime" class="form-control" placeholder="DateTime">
+                <strong>DateAndTime:</strong>
+                <input type="text" name="DateAndTime" class="form-control" placeholder="DateAndTime">
             </div>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-12">

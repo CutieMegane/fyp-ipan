@@ -27,7 +27,7 @@
         </tr>
         @foreach ($traffic as $t)
         <tr>
-            <td>{{ $t->DateTime }}</td>
+            <td>{{ $t->DateAndTime }}</td>
             <td>{{ $t->Junction }}</td>
             <td>{{ $t->Vehicles }}</td>
             <td>{{ $t->number }}</td>
