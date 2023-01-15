@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\trafficChartController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
@@ -29,4 +30,5 @@ Route::resource('/users', UserController::class);
 Route::resource('/traffics', TrafficDataController::class);
 Route::post('/import', [TrafficDataController::class, 'import'])->name('traffic.import');
 Route::get('/traffics/index',[TrafficDataController::class, 'import'])->name('traffic.index');
+Route::get('/trafficChart', [trafficChartController::class, 'index'])->name('traffic2.index');
 

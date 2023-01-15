@@ -54,7 +54,7 @@
             <a href="#" class="nav-link">Contact</a>
           </li>
           <li class="nav-item d-none d-sm-inline-block">
-            <a href="/" class="nav-link">Landing Page</a>
+            <a href="/" class="nav-link">Homepage</a>
           </li>
         </ul>
 
@@ -98,13 +98,13 @@
                       <p>Table Route</p>
                     </a>
                   </li>
-                  
-                  {{-- <li class="nav-item">
-                    <a href="#" class="nav-link">
+                  <li class="nav-item">
+                    <a href="{{route('traffic2.index')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Dashboard v2</p>
+                      <p>Charts</p>
                     </a>
                   </li>
+                  {{-- 
                   <li class="nav-item">
                     <a href="#" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
