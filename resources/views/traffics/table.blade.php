@@ -19,11 +19,11 @@
    
     <table class="table table-bordered">
         <tr>
-            <th>DateTime</th>
+            <th>Date and Time</th>
             <th>Junction</th>
             <th>Vehicles</th>
             <th>ID</th>
-            <th width="280px">Action</th>
+            {{-- <th width="280px">Action</th> --}}
         </tr>
         @foreach ($traffic as $t)
         <tr>
@@ -31,7 +31,7 @@
             <td>{{ $t->Junction }}</td>
             <td>{{ $t->Vehicles }}</td>
             <td>{{ $t->number }}</td>
-            <td>
+            {{--  <td>
                 <form action="{{ route('traffics.destroy',$t->id) }}" method="POST">
    
                     <a class="btn btn-info" href="{{ route('traffics.show',$t->id) }}">Show</a>
@@ -43,7 +43,7 @@
       
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
-            </td>
+            </td> --}}
         </tr>
         @endforeach
     </table>

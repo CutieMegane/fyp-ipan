@@ -26,7 +26,7 @@
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
                     @else
                         <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
 
@@ -37,19 +37,7 @@
                 </div>
             @endif
             
-
-            <div class="card">
-                <div class="card-body">
-                    <form action="{{route('traffic.import')}}" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <div class="form-group">
-                            <input type="file" name="file" />
-        
-                            <button type="submit" class="btn btn-primary">Import</button>
-                        </div>
-                   </form>
-                </div>
-            </div>
+            
         </div>
     </body>
 </html>
