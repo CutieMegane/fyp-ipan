@@ -37,7 +37,16 @@
                 </div>
             @endif
             
-            
+                <div class="card" style="width:18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">Import Excel File</h5>
+                    <h6 class="card-subtitle mb-2 text-muted "></h6>
+                    <p class="card-text">If you want to import your excel file into a database please press this link</p>
+                    <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
+                  </div>
+                </div>>
+
+                </div>
         </div>
     </body>
 </html>
