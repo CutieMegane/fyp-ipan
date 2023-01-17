@@ -49,7 +49,7 @@ class TrafficDataController extends Controller
     {
         
         traffic::create($request->all());
-        return redirect()->route('traffics.index')->with('success','Scedule is successfully.');
+        return redirect()->route('traffics.index')->with('success','Table is successfully.');
     }
 
     /**
@@ -84,7 +84,7 @@ class TrafficDataController extends Controller
     public function update(Request $request, traffic $traffic)
     {
         $traffic->update($request->all());
-        return redirect()->route('traffics.index')->with('success','Route updated successfully');
+        return redirect()->route('traffics.index')->with('success','Table updated successfully');
     }
 
     /**
@@ -96,6 +96,6 @@ class TrafficDataController extends Controller
     public function destroy(traffic $traffic)
     {
         $traffic->delete();
-        return redirect()->route('traffics.index')->with('success','Route deleted successfully');
+        return redirect()->route('traffics.index')->with('success','Table deleted successfully');
     }
 }
