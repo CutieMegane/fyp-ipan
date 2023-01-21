@@ -16,7 +16,7 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-   
+    {!! $traffic->links() !!}
     <table class="table table-bordered">
         <tr>
             <th>Date and Time</th>

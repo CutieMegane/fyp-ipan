@@ -15,9 +15,9 @@ class CreateTrafficData extends Migration
     {
         Schema::create('traffic_data', function (Blueprint $table) {
             $table->id();
-            $table->string('DateAndTime')->nullable();
-            $table->string('Junction')->nullable();
-            $table->string('Vehicles')->nullable();
+            $table->dateTime('DateAndTime');
+            $table->integer('Junction')->nullable();
+            $table->integer('Vehicles')->nullable();
             $table->string('number')->unique();
             $table->timestamps();
            

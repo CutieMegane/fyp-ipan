@@ -19,6 +19,7 @@ class TrafficDataController extends Controller
     {
         $traffic = traffic::paginate(50);
         return view('traffics.index',compact('traffic'));
+        //return view('traffics.index');
     }
 
     public function import(Request $request)
