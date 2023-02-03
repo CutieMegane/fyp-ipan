@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\dynamicPage;
 use App\Http\Controllers\trafficChartController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -31,4 +32,6 @@ Route::resource('/traffics', TrafficDataController::class);
 Route::post('/import', [TrafficDataController::class, 'import'])->name('traffic.import');
 Route::get('/traffics/index',[TrafficDataController::class, 'import'])->name('traffic.index');
 Route::get('/trafficChart', [trafficChartController::class, 'index'])->name('traffic2.index');
-
+Route::get('/dynamicViews', [dynamicPage::class, 'index'])->name('dynamic.index');
+Route::post('/dynamicViews/create',[dynamicPage::class, 'create'])->name('dynamic.create');
+Route::get('/dynamicViews/index2', [dynamicPage::class, 'index2'])->name('dynamic.index2');
