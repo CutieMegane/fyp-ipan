@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TrafficDataController;
+use App\Http\Controllers\testController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +36,4 @@ Route::get('/trafficChart', [trafficChartController::class, 'index'])->name('tra
 Route::get('/dynamicViews', [dynamicPage::class, 'index'])->name('dynamic.index');
 Route::post('/dynamicViews/create',[dynamicPage::class, 'create'])->name('dynamic.create');
 Route::get('/dynamicViews/index2', [dynamicPage::class, 'index2'])->name('dynamic.index2');
+//Route::get('test', [testController::class, 'test'])->name('test');
