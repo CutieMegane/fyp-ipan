@@ -32,6 +32,7 @@ class dynamicPage extends Controller
      */
     public function create(Request $request)
     {
+        //dd($request);
         global $hello;
         $hello = $request->col1;
         Schema::create($request->tableName, function (Blueprint $table) {

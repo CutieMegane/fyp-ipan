@@ -10,17 +10,16 @@
                 <div class="card-header">
                     <span class="text-nowrap">Structure</span>
                 </div>
-                <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-12">
+                <div class="card-body">
+                    <form action="{{route('traffic.import')}}" method="post" enctype="multipart/form-data">
+                        @csrf
                         <div class="form-group">
-                            <strong>Column Name:</strong>
-                            <input type="text" class="col1" name="col1" placeholder="Column Name">
+                            <input type="file" name="file" />
+        
+                            <button type="submit" class="btn btn-primary">Import</button>
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                            <button type="submit" class="btn btn-primary">Create</button>
-                    </div>
-                </div>               
+                   </form>
+                </div>              
             </form>
         </div>
     </div>
