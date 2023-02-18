@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\table;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Exception;
+use Illuminate\Support\Facades\DB;
 
 class tableController extends Controller
 {
@@ -32,17 +36,24 @@ class tableController extends Controller
     public function create2(Request $req){
         $hello = array();
         if ($req->file != null){
-            $in = IOFactory::load($req->file->path());
+            try{
+                $in = IOFactory::load($req->file->path());
+            } catch (Exception $e){
+                return redirect()->route('table.create')->with('message', 'Spreadsheet error. Please check uploaded files.'); 
+            }
             $data = $in->getActiveSheet();
             $col = $data->getHighestColumn();
-            $hello[] = 0;
+            $hello['colCount'] = 0;
 
             for ($x = 'A'; $x <= $col; $x++){
-                $val = $data->getCell($x.'1')->getValue();
-                $hello[] = $val;
-                $hello[0]++;
+                $hello['colCount']++;
+                $hello['col'.$hello['colCount']] = $data->getCell($x . '1')->getValue();
             }
-            dd($hello);
+
+            if ($hello['colCount'] < 2)
+                return redirect()->route('table.create')->with('message', 'Really, good job'); 
+            $hello['file'] = storage_path("app/".$req->file->store('tmp'));
+            return view('table.up2', ['output' => $hello]);
         } else return redirect()->route('table.create') ->with('message', 'Good job');      
     }
 
@@ -52,9 +63,48 @@ class tableController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        //
+        $in = IOFactory::load($req->upld);
+        $tName = tableController::rngString(30);
+
+        //Excel table builder
+        Schema::create($tName, function (Blueprint $table) use ($req){
+            $table -> id();
+            for($i = 1; $i <= $req->colCount; $i++){
+                $q1 = 'col'.$i;
+                $q2 = 'col'.$i.'type';
+                $type = $req->$q2;
+                $table->$type($q1);
+            }
+            $table->timestamps();
+        });
+
+        //Metadata about tables
+        table::create([
+            'tableName' => $req->tableName,
+            'tableDBName' => $tName,
+            'colCount' => $req->colCount,
+        ]);
+
+        //Start import
+        $sheet = $in->getActiveSheet();
+        $colH = $sheet->getHighestColumn();
+        $rowH = $sheet->getHighestRow();
+
+        for ($row = 2; $row <= $rowH; $row++){
+            $val = array();
+            $j = 1;
+            for ($col = 'A'; $col <= $colH; $col++){
+                $val['col'.$j] = $sheet->getCell($col.$row)->getValue();
+                $j++;
+            }
+            $val['createdAt'] = now();
+            DB::table($tName)->insert($val);
+        }
+
+        unlink($req->upld); //Delete temp files
+        return redirect()->route('table.index');
     }
 
     /**
@@ -99,6 +149,21 @@ class tableController extends Controller
      */
     public function destroy(table $table)
     {
-        //
+        Schema::dropIfExists($table->tableDBName);
+        $table->delete();
+        return redirect()->route('table.index')->with('message', 'Table nuked');  
+    }
+
+    private function rngString($n)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+
+        for ($i = 0; $i < $n; $i++) {
+            $index = rand(0, strlen($characters) - 1);
+            $randomString .= $characters[$index];
+        }
+
+        return $randomString;
     }
 }

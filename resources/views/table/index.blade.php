@@ -1,6 +1,12 @@
 @extends('layouts.template')
 
 @section('content')
+@if ($message = Session::get('message'))
+<div class="alert alert-danger">
+    <p>{{ $message }}</p>
+</div>
+@endif
+
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-right">

@@ -13,8 +13,9 @@ class table extends Model
     
     protected $fillable = [
         'tableName',
+        'tableDBName',
+        'colCount',
         'tableDesc',
-        'columnCount',
-        'colDetails',
+        'details',
     ];
 }

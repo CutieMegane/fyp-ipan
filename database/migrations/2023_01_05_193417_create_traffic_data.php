@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 
 class CreateTrafficData extends Migration
 {
@@ -32,5 +33,6 @@ class CreateTrafficData extends Migration
     public function down()
     {
         Schema::dropIfExists('traffic_data');
+        Storage::deleteDirectory('tmp');
     }
 }

@@ -16,18 +16,10 @@ class Table extends Migration
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
             $table->string('tableName');
-            $table->integer('columnCount');
+            $table->string('tableDBName');
+            $table->integer('colCount');
             $table->string('tableDesc')->nullable();
-            $table->string('col1Name');
-            $table->string('col1Type');
-            $table->string('col2Name');
-            $table->string('col2Type');
-            $table->string('col3Name')->nullable();
-            $table->string('col3Type')->nullable();
-            $table->string('col4Name')->nullable();
-            $table->string('col4Type')->nullable();
-            $table->string('col5Name')->nullable();
-            $table->string('col5Type')->nullable();
+            $table->string('details', 500)->nullable();
             $table->timestamps();
         });
     }
