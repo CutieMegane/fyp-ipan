@@ -99,7 +99,6 @@ class tableController extends Controller
                 $val['col'.$j] = $sheet->getCell($col.$row)->getValue();
                 $j++;
             }
-            $val['createdAt'] = now();
             DB::table($tName)->insert($val);
         }
 
