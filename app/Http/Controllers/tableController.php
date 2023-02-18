@@ -75,7 +75,7 @@ class tableController extends Controller
                 $q1 = 'col'.$i;
                 $q2 = 'col'.$i.'type';
                 $type = $req->$q2;
-                $table->$type($q1);
+                $table->$type($q1)->nullable(); //to ensure no error while processing malformed data
             }
             $table->timestamps();
         });
