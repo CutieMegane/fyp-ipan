@@ -6,9 +6,11 @@ use App\Models\table;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
-use Illuminate\Support\Facades\DB;
+
 
 class tableController extends Controller
 {
@@ -67,7 +69,17 @@ class tableController extends Controller
     {
         $in = IOFactory::load($req->upld);
         $tName = tableController::rngString(30);
-
+        $deets = array();
+        
+        //Loop details to store in model
+        for ($r = 1; $r <= $req->colCount; $r++){
+            $pos = 'col'.$r.'name';
+            $posT = 'col'.$r.'type';
+            $deets[$pos] = $req->$pos;
+            $deets[$posT] = $req->$posT;
+        }
+        $sr = serialize($deets);
+        
         //Excel table builder
         Schema::create($tName, function (Blueprint $table) use ($req){
             $table -> id();
@@ -85,6 +97,7 @@ class tableController extends Controller
             'tableName' => $req->tableName,
             'tableDBName' => $tName,
             'colCount' => $req->colCount,
+            'details' => $sr,
         ]);
 
         //Start import
@@ -114,7 +127,11 @@ class tableController extends Controller
      */
     public function show(table $table)
     {
-        //
+        $data = DB::table($table->tableDBName)->get();
+        $deets = unserialize($table->details);
+        //$table = compact('table');
+        $colCount = $table->colCount;
+        return view('table.show')->with(['details' => $deets, 'db' => $data, 'colCount' => $colCount]);
     }
 
     /**
