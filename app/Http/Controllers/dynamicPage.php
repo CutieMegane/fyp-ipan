@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\Reader\IReadFilter;
+
 //use App\Models\dynamictable;
 
 class dynamicPage extends Controller
@@ -18,6 +23,7 @@ class dynamicPage extends Controller
     {
         //$dynamic = dynamictable::all();
         return view('dynamics.index');
+
     }
 
     public function index2()
@@ -33,12 +39,27 @@ class dynamicPage extends Controller
     public function create(Request $request)
     {
         //dd($request);
-        global $hello;
-        $hello = $request->col1;
-        Schema::create($request->tableName, function (Blueprint $table) {
-            global $hello;
+        // $hello;
+        dd($request);
+
+        $insert = array();
+
+        if ($request->col1 != null) $insert[] = $request->col1;
+        if ($request->col2 != null) $insert[] = $request->col2;
+        if ($request->col3 != null) $insert[] = $request->col3;
+        if ($request->col4 != null) $insert[] = $request->col4;
+        if ($request->col5 != null) $insert[] = $request->col5;
+        if ($request->col6 != null) $insert[] = $request->col6;
+        if ($request->col7 != null) $insert[] = $request->col7;
+        if ($request->col8 != null) $insert[] = $request->col8;
+        if ($request->col9 != null) $insert[] = $request->col9;
+        if ($request->col10 != null) $insert[] = $request->col10;
+
+        Schema::create($request->tableName, 
+            function (Blueprint $table) use ($insert){
             $table->id();
-            $table->string($hello);
+            foreach($insert as $x)
+                    $table->string($x);
             $table->timestamps();
         });
         return redirect()->route('dynamic.index2');

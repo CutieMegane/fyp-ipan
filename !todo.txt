@@ -1,0 +1,8 @@
+#TODO
+- Analysis engine
+
+Done
+- Pass array of names to frontend done
+- Create database with names and parameters done
+- Store table details done
+- Show tables done

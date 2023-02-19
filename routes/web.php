@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TrafficDataController;
 use App\Http\Controllers\testController;
+use App\Http\Controllers\TableController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,5 +36,8 @@ Route::get('/traffics/index',[TrafficDataController::class, 'import'])->name('tr
 Route::get('/trafficChart', [trafficChartController::class, 'index'])->name('traffic2.index');
 Route::get('/dynamicViews', [dynamicPage::class, 'index'])->name('dynamic.index');
 Route::post('/dynamicViews/create',[dynamicPage::class, 'create'])->name('dynamic.create');
-Route::get('/dynamicViews/index2', [dynamicPage::class, 'index2'])->name('dynamic.index2');
+Route::get('/dynamicViews/index2', [dynamicPage::class, 'index2'])->name('dynamic.index2'); //debug
 //Route::get('test', [testController::class, 'test'])->name('test');
+
+Route::resource('/table', TableController::class)->middleware('auth'); //Dynamic Table
+Route::post('/table/create', [TableController::class, 'create2'])->name('table.create')->middleware('auth');
