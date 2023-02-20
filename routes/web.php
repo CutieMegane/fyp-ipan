@@ -40,5 +40,5 @@ Route::get('/dynamicViews/index2', [dynamicPage::class, 'index2'])->name('dynami
 //Route::get('analytic/index',[AnalyticController::class, 'analytic'])->name('analytic.index'); // page analytic
 //Route::get('test', [testController::class, 'test'])->name('test');
 
-Route::resource('/table', TableController::class)->middleware('auth'); //Dynamic Table
-Route::post('/table/create', [TableController::class, 'create2'])->name('table.create')->middleware('auth');
+Route::resource('/table', tableController::class)->middleware('auth'); //Dynamic Table
+Route::post('/table/create', [tableController::class, 'create2'])->name('table.create')->middleware('auth');
