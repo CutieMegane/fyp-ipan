@@ -21,5 +21,10 @@ class debugUser extends Seeder
             'email' => 'hell@lo',
             'password' => Hash::make('qweasdrf'),
         ]);
+        DB::table('users')->insert([
+            'name' => "irfan",
+            'email' => 'irf@14',
+            'password' => Hash::make('12345678'),
+        ]);
     }
 }

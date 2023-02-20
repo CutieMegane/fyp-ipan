@@ -9,8 +9,6 @@
 @endif
 
     <div class="card">
-        <div class="card-body row row-cols-lg-auto g-3">
-        
                 <div class="card-header">
                     <span class="text-nowrap">Structure</span>
                 </div>
@@ -23,7 +21,6 @@
                             <button type="submit" class="btn btn-primary">Import</button>
                         </div>
                    </form>
-                </div>              
-        </div>
+                </div>       
     </div>
 @endsection

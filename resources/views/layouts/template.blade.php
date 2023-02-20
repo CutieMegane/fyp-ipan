@@ -46,16 +46,13 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
           </li>
           <li class="nav-item d-none d-sm-inline-block">
-            <a href="home" class="nav-link">Home</a>
+            <a href="{{route('table.index')}}" class="nav-link">Home</a>
           </li>
           <li class="nav-item d-none d-sm-inline-block">
             <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
             </form>
-          </li>
-          <li class="nav-item d-none d-sm-inline-block">
-            <a href="/" class="nav-link">Homepage</a>
           </li>
           
         </ul>
@@ -95,42 +92,18 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{route('traffics.index')}}" class="nav-link active">
+                    <a href="{{route('table.index')}}" class="nav-link active">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Table</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  {{-- <li class="nav-item">
                     <a href="{{route('traffic2.index')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Charts</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{route('dynamic.index')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Create</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Upload</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Raw Data</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Analysis</p>
                     </a>
                   </li>
-                  {{-- 
+                  
                   <li class="nav-item">
                     <a href="#" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>

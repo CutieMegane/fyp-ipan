@@ -13,6 +13,11 @@
                     <div class="form-group">
                         <strong>Table Name:</strong>
                         <input type="text" name="tableName" class="form-control" placeholder="TableName" required>
+                        <strong>Table Description:</strong>
+                        <textarea name="tableDesc" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        
                     </div>
                 </div>
 

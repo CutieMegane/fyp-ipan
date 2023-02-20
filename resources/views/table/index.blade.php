@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-right">
-                <a class="btn btn-outline-info" href="{{ route('table.create') }}"> +Tb</a>
+                <a class="btn btn-outline-info" href="{{ route('table.create') }}"> Create Table </a>
             </div><br>
         </div>
     </div>
@@ -32,7 +32,7 @@
                     <td>
                         <form action="{{ route('table.destroy', $t->id) }}" method="POST">
 
-                            <a class="btn btn-outline-secondary" href="{{ route('table.edit', $t->id) }}">Edit</a>
+                            
 
                             @csrf
                             @method('DELETE')

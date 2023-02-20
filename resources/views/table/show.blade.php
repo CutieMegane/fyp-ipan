@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="card">
+        {!! $db->links() !!}
         <table class="table table-striped" style="width:100%">
             <tr>
                 @for ($x = 1; $x <= $colCount; $x++)

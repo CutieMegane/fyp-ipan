@@ -19,7 +19,7 @@ class Table extends Migration
             $table->string('tableDBName');
             $table->integer('colCount');
             $table->string('tableDesc')->nullable();
-            $table->string('details', 500)->nullable();
+            $table->string('details', 2000)->nullable();
             $table->timestamps();
         });
     }

@@ -96,6 +96,7 @@ class tableController extends Controller
         table::create([
             'tableName' => $req->tableName,
             'tableDBName' => $tName,
+            'tableDesc' => $req->tableDesc,
             'colCount' => $req->colCount,
             'details' => $sr,
         ]);
@@ -127,9 +128,8 @@ class tableController extends Controller
      */
     public function show(table $table)
     {
-        $data = DB::table($table->tableDBName)->get();
+        $data = DB::table($table->tableDBName)->paginate(50);
         $deets = unserialize($table->details);
-        //$table = compact('table');
         $colCount = $table->colCount;
         return view('table.show')->with(['details' => $deets, 'db' => $data, 'colCount' => $colCount]);
     }
