@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TrafficDataController;
 use App\Http\Controllers\testController;
-use App\Http\Controllers\TableController;
+use App\Http\Controllers\tableController;
 
 /*
 |--------------------------------------------------------------------------
