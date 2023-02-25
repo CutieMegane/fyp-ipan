@@ -7,7 +7,8 @@
             <tr>
                 @for ($x = 1; $x <= $colCount; $x++)
                         <th>{{$details['col'.$x.'name']}}</th>
-                @endfor    
+                @endfor
+                {{--<td>Action</td>  --}}  
             </tr>
             @foreach ($db as $d)
                 <tr>
@@ -15,6 +16,8 @@
                         <?php $str = 'col'.$x ?>
                         <td>{{$d->$str}}</td>
                     @endfor
+                    {{--<td><a class="btn btn-outline-secondary" href="{{ route('table.edit', $d->id) }}">Edit</a></td>--}}
+                        
                 </tr>
             @endforeach
         </table>

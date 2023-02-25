@@ -31,7 +31,7 @@
             <td>{{ $t->Junction }}</td>
             <td>{{ $t->Vehicles }}</td>
             <td>{{ $t->number }}</td>
-            {{--  <td>
+            <td>
                 <form action="{{ route('traffics.destroy',$t->id) }}" method="POST">
    
                     <a class="btn btn-info" href="{{ route('traffics.show',$t->id) }}">Show</a>
@@ -43,7 +43,7 @@
       
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
-            </td> --}}
+            </td>
         </tr>
         @endforeach
     </table>

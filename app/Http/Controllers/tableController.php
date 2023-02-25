@@ -142,7 +142,7 @@ class tableController extends Controller
      */
     public function edit(table $table)
     {
-        //
+        return view('table.edit',compact('table'));
     }
 
     /**
@@ -154,7 +154,8 @@ class tableController extends Controller
      */
     public function update(Request $request, table $table)
     {
-        //
+        $table->update($request->all());
+        return redirect()->route('table.index')->with('success','Row updated successfully');
     }
 
     /**

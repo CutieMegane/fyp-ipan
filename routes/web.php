@@ -37,8 +37,10 @@ Route::get('/trafficChart', [trafficChartController::class, 'index'])->name('tra
 Route::get('/dynamicViews', [dynamicPage::class, 'index'])->name('dynamic.index');
 Route::post('/dynamicViews/create',[dynamicPage::class, 'create'])->name('dynamic.create');
 Route::get('/dynamicViews/index2', [dynamicPage::class, 'index2'])->name('dynamic.index2'); //debug
+
 //Route::get('analytic/index',[AnalyticController::class, 'analytic'])->name('analytic.index'); // page analytic
 //Route::get('test', [testController::class, 'test'])->name('test');
 
 Route::resource('/table', tableController::class)->middleware('auth'); //Dynamic Table
 Route::post('/table/create', [tableController::class, 'create2'])->name('table.create')->middleware('auth');
+Route::get('/table/edit', [tableController::class], 'edit')->name('table.edit');
