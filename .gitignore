@@ -23,3 +23,5 @@ Homestead.json
 .phpunit.result.cache
 fyp-traffic/
 .DS_Store
+package-lock.json
+package.json
