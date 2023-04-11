@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DataViewController;
 use App\Http\Controllers\dynamicPage;
 use App\Http\Controllers\trafficChartController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,8 @@ Route::get('/trafficChart', [trafficChartController::class, 'index'])->name('tra
 Route::get('/dynamicViews', [dynamicPage::class, 'index'])->name('dynamic.index');
 Route::post('/dynamicViews/create',[dynamicPage::class, 'create'])->name('dynamic.create');
 Route::get('/dynamicViews/index2', [dynamicPage::class, 'index2'])->name('dynamic.index2'); //debug
+
+Route::get('/dataview', [DataViewController::class,'index'])->name('dataview.index');
 
 //Route::get('analytic/index',[AnalyticController::class, 'analytic'])->name('analytic.index'); // page analytic
 //Route::get('test', [testController::class, 'test'])->name('test');
