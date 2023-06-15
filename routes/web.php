@@ -25,6 +25,10 @@ Route::get('/', function () {
     return redirect()->route('table.index');
 });
 
+Route::get('/datadash',function(){
+    return view('datadash');
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
