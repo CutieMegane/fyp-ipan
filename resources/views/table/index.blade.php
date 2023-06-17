@@ -30,6 +30,7 @@
                     <td>{{ $t->tableDesc }}</td>
                     <td>{{ $t->colCount }}</td>
                     <td>
+                        {{-- <a class="btn btn-info" href="{{ route('dataview.index' ,$t->id) }}">Analysis</a> --}}
                         <form action="{{ route('table.destroy', $t->id) }}" method="POST">
 
                             
