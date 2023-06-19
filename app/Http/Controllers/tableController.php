@@ -126,14 +126,28 @@ class tableController extends Controller
      * @param  \App\Models\table  $table
      * @return \Illuminate\Http\Response
      */
-    public function show(table $table)
+    public function show(Request $request,table $table)
     {
-        $data = DB::table($table->tableDBName)->paginate(50);
+        $data = DB::table($table->tableDBName)->paginate(25);
         $deets = unserialize($table->details);
         $colCount = $table->colCount;
-        return view('table.show')->with(['details' => $deets, 'db' => $data, 'colCount' => $colCount]);
+        $chart = array();
+        $chart[0] = DB::table($table->tableDBName)->select('col1')->where('col2','=','1')->sum('col3');
+        $chart[1] = DB::table($table->tableDBName)->select('col1')->where('col2','=','2')->sum('col3');
+        $chart[2] = DB::table($table->tableDBName)->select('col1')->where('col2','=','3')->sum('col3');
+        $chart[3] = DB::table($table->tableDBName)->select('col1')->where('col2','=','4')->sum('col3');
+
+        //dd($chart);
+        return view('table.show')->with(['details' => $deets, 'db' => $data, 'colCount' => $colCount, 'chart' => $chart]);
     }
 
+    public function showgraph(Request $request,table $table)
+    {
+        //function ni nk try show graph kat dlm table.show.
+
+
+        return view ('table.show', compact('labels', 'data'));
+    }
     /**
      * Show the form for editing the specified resource.
      *

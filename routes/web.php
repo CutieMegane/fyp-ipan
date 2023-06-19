@@ -1,13 +1,9 @@
 <?php
 
-use App\Http\Controllers\DataViewController;
 use App\Http\Controllers\dynamicPage;
-use App\Http\Controllers\trafficChartController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\TrafficDataController;
-use App\Http\Controllers\testController;
 use App\Http\Controllers\tableController;
 
 /*
@@ -25,9 +21,6 @@ Route::get('/', function () {
     return redirect()->route('table.index');
 });
 
-Route::get('/datadash',function(){
-    return view('datadash');
-});
 
 Auth::routes();
 
@@ -35,15 +28,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 // Route::get('users/import/', [UsersController::class, 'import']);
 Route::resource('/users', UserController::class);
-Route::resource('/traffics', TrafficDataController::class);
-Route::post('/import', [TrafficDataController::class, 'import'])->name('traffic.import');
-Route::get('/traffics/index',[TrafficDataController::class, 'import'])->name('traffic.index');
-Route::get('/trafficChart', [trafficChartController::class, 'index'])->name('traffic2.index');
 Route::get('/dynamicViews', [dynamicPage::class, 'index'])->name('dynamic.index');
 Route::post('/dynamicViews/create',[dynamicPage::class, 'create'])->name('dynamic.create');
 Route::get('/dynamicViews/index2', [dynamicPage::class, 'index2'])->name('dynamic.index2'); //debug
-
-Route::get('/dataview', [DataViewController::class,'index'])->name('dataview.index');
 
 //Route::get('analytic/index',[AnalyticController::class, 'analytic'])->name('analytic.index'); // page analytic
 //Route::get('test', [testController::class, 'test'])->name('test');
