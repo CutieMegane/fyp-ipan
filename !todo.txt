@@ -1,5 +1,9 @@
 #TODO
+- Login
+- Guest/User/Admin separation 20%
+- ??
 - Analysis engine
+- Profit!
 
 Done
 - Pass array of names to frontend done
