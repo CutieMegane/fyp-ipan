@@ -1,7 +1,23 @@
-@extends('layouts.template')
+{!! $db->links() !!}
+        <table class="table table-striped" style="width:100%">
+            <tr>
+                @for ($x = 1; $x <= $colCount; $x++)
+                        <th>{{$details['col'.$x.'name']}}</th>
+                @endfor
+                {{--<td>Action</td>  --}}  
+            </tr>
+            @foreach ($db as $d)
+                <tr>
+                    @for ($x = 1; $x <= $colCount; $x++)
+                        <?php $str = 'col'.$x ?>
+                        <td>{{$d->$str}}</td>
+                    @endfor
+                        
+                </tr>
+            @endforeach
+        </table>
 
-@section('content')
-<div class="card">
+        <div class="card">
     <main class="card">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Dashboard</h1>
@@ -24,32 +40,9 @@
         </div>
   
         <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-        <label class="form-label" for="customRange1">Example range</label>
-        <div class="range">
-          <input type="range" class="form-range" id="customRange1" />
-        </div
   </main>
-        
       
-        {!! $db->links() !!}
-        <table class="table table-striped" style="width:100%">
-            <tr>
-                @for ($x = 1; $x <= $colCount; $x++)
-                        <th>{{$details['col'.$x.'name']}}</th>
-                @endfor
-                {{--<td>Action</td>  --}}  
-            </tr>
-            @foreach ($db as $d)
-                <tr>
-                    @for ($x = 1; $x <= $colCount; $x++)
-                        <?php $str = 'col'.$x ?>
-                        <td>{{$d->$str}}</td>
-                    @endfor
-                    {{--<td><a class="btn btn-outline-secondary" href="{{ route('table.edit', $d->id) }}">Edit</a></td>--}}
-                        
-                </tr>
-            @endforeach
-        </table>
+        <h1>Hello World</h1>
 </div>
     
 
@@ -59,13 +52,12 @@
       <script>
         const ctx = document.getElementById('myChart');
         var x= @json($chart);
-        var title = 'Number';
         new Chart(ctx, {
           type: 'bar',
           data: {
-            labels: Object.keys(x),
+            labels: ['1', '2', '3', '4'],
             datasets: [{
-              label: title,
+              label: 'Number of Vehicles on Junction',
               data: Object.values(x),
               borderWidth: 1
             }]
@@ -79,4 +71,3 @@
           }
         });
       </script>
-@endsection

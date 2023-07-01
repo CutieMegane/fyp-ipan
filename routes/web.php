@@ -20,21 +20,23 @@ use App\Http\Controllers\tableController;
 Route::get('/', function () {
     return redirect()->route('table.index');
 });
+/*
+Route::get('/analysis', function (){
+    return view('analysis');
+});*/
 
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Route::get('users/import/', [UsersController::class, 'import']);
 Route::resource('/users', UserController::class);
 Route::get('/dynamicViews', [dynamicPage::class, 'index'])->name('dynamic.index');
 Route::post('/dynamicViews/create',[dynamicPage::class, 'create'])->name('dynamic.create');
 Route::get('/dynamicViews/index2', [dynamicPage::class, 'index2'])->name('dynamic.index2'); //debug
 
-//Route::get('analytic/index',[AnalyticController::class, 'analytic'])->name('analytic.index'); // page analytic
-//Route::get('test', [testController::class, 'test'])->name('test');
 
 Route::resource('/table', tableController::class)->middleware('auth'); //Dynamic Table
 Route::post('/table/create', [tableController::class, 'create2'])->name('table.create')->middleware('auth');
-Route::get('/table/edit', [tableController::class], 'edit')->name('table.edit');
+//Route::get('/table/edit', [tableController::class, 'edit'])->name('table.edit');
+Route::get('/table/pagekosong', [tableController::class, 'pagekosong'])->name('table.pagekosong')->middleware('auth');

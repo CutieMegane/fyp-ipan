@@ -9,9 +9,11 @@
 
     <div class="row">
         <div class="col-lg-12 margin-tb">
+            @if(Auth::user()->level)
             <div class="pull-right">
                 <a class="btn btn-outline-info" href="{{ route('table.create') }}"> Create Table </a>
             </div><br>
+            @endif
         </div>
     </div>
     <div class="card">
@@ -26,11 +28,12 @@
             @foreach ($tb as $t)
                 <tr>
                     <td>{{ $t->id }} </td>
-                    <td><a href="{{ route('table.show', $t->id) }}">{{ $t->tableName }} </a></td>
+                    <td>{{ $t->tableName }}</td>
                     <td>{{ $t->tableDesc }}</td>
                     <td>{{ $t->colCount }}</td>
                     <td>
-                        {{-- <a class="btn btn-info" href="{{ route('dataview.index' ,$t->id) }}">Analysis</a> --}}
+                        <a class="btn btn-primary" href="{{ route('table.show', $t->id) }}">Show</a>
+                    @if(Auth::user()->level)
                         <form action="{{ route('table.destroy', $t->id) }}" method="POST">
 
                             
@@ -40,6 +43,7 @@
 
                             <button type="submit" class="btn btn-outline-danger">Delete</button>
                         </form>
+                    @endif
                     </td>
                 </tr>
             @endforeach

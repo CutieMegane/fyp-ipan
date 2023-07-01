@@ -97,12 +97,15 @@
                       <p>Table</p>
                     </a>
                   </li>
-                  {{-- <li class="nav-item">
-                    <a href="{{route('traffic2.index')}}" class="nav-link">
+                  @if(Auth::user()->level)
+                  <li class="nav-item">
+                    <a href="{{route('users.index')}}" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Analysis</p>
+                      <p>User</p>
                     </a>
                   </li>
+                  @endif
+                  {{-- 
                   
                   <li class="nav-item">
                     <a href="#" class="nav-link">

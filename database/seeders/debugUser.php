@@ -20,13 +20,13 @@ class debugUser extends Seeder
             'name' => "Ralph",
             'email' => 'hell@lo',
             'password' => Hash::make('qweasdrf'),
-            'level' => '2',
+            'level' => '1',
         ]);
         DB::table('users')->insert([
             'name' => "irfan",
             'email' => 'irf@14',
             'password' => Hash::make('123'),
-            'level' => '2',
+            'level' => '1',
         ]);
         DB::table('users')->insert([
             'name' => "ipan",

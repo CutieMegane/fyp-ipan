@@ -137,14 +137,33 @@ class tableController extends Controller
         $chart[2] = DB::table($table->tableDBName)->select('col1')->where('col2','=','3')->sum('col3');
         $chart[3] = DB::table($table->tableDBName)->select('col1')->where('col2','=','4')->sum('col3');
 
+        //dd($request);
+
         //dd($chart);
         return view('table.show')->with(['details' => $deets, 'db' => $data, 'colCount' => $colCount, 'chart' => $chart]);
     }
 
+    public function pagekosong()
+    {
+        
+        return view ('table.pagekosong');
+    }
+
+    public function filter(Request $request, table $table)
+    {
+        // Retrieve the filtered data based on the selected option
+        $selectedOption = $request->input('filter_option');
+        $filteredData = DB::table($table->tableDBName)->where('column_name', $selectedOption)->get();
+
+        // Prepare the data for the chart
+        $chartData = $filteredData->pluck('value')->toArray();
+
+        return view('filtergraph', compact('chartData'));
+    }
     public function showgraph(Request $request,table $table)
     {
         //function ni nk try show graph kat dlm table.show.
-
+       
 
         return view ('table.show', compact('labels', 'data'));
     }
@@ -197,4 +216,6 @@ class tableController extends Controller
 
         return $randomString;
     }
+
+    
 }

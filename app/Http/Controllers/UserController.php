@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -13,7 +16,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $user = User::all();
+        //dd($user);
+
+        return view('users.index',compact('user'));
     }
 
     /**
@@ -23,7 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
@@ -34,7 +40,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+
+        DB::table('users')->insert([
+            'name' => $request->name,
+            'password' => $request->password,
+            'email' => $request->email,
+        ]);
+  
+        // User::create($request->all());
+   
+        return redirect()->route('users.index')->with('success','User created successfully.');
     }
 
     /**
@@ -43,9 +63,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(user $user)
     {
-        //
+        return view('users.show',compact('user'));
     }
 
     /**
@@ -54,9 +74,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(user $user)
     {
-        //
+        return view('users.edit',compact('user'));
     }
 
     /**
@@ -66,9 +86,25 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, user $user)
     {
-        //
+        //dd($request);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'level' => 'required' , 'boolean',
+        ]);
+
+        $user->name = $request['name'];
+        $user->email = $request['email'];
+        $user->level= $request->level; 
+        if (!($request->password == 'null')) {
+            $user->password = Hash::make($request->password);
+        }
+        
+  
+        $user->save();
+        return redirect()->route('users.index')->with('success','User updated successfully');
     }
 
     /**
@@ -77,8 +113,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(user $user)
     {
-        //
+        $user->delete();
+  
+        return redirect()->route('users.index')->with('success','User deleted successfully');
     }
 }
