@@ -128,19 +128,32 @@ class tableController extends Controller
      */
     public function show(Request $request,table $table)
     {
+        //dd($request);
+        if($request->charts)
+            $ct = 1;
+        else
+            $ct = 0;
         $data = DB::table($table->tableDBName)->paginate(25);
         $deets = unserialize($table->details);
         $colCount = $table->colCount;
         $chart = array();
-        $chart[0] = DB::table($table->tableDBName)->select('col1')->where('col2','=','1')->sum('col3');
-        $chart[1] = DB::table($table->tableDBName)->select('col1')->where('col2','=','2')->sum('col3');
-        $chart[2] = DB::table($table->tableDBName)->select('col1')->where('col2','=','3')->sum('col3');
-        $chart[3] = DB::table($table->tableDBName)->select('col1')->where('col2','=','4')->sum('col3');
 
-        //dd($request);
-
-        //dd($chart);
-        return view('table.show')->with(['details' => $deets, 'db' => $data, 'colCount' => $colCount, 'chart' => $chart]);
+        if ($ct){
+            if($request->opt == 2){
+                return view('table.show')->with(['on' => $ct, 'details' => $deets, 'db' => $data, 'colCount' => $colCount, 'chart' => $chart, 't' => $table]);
+            }
+            else if($request->opt == 3){
+                return view('table.show')->with(['on' => $ct, 'details' => $deets, 'db' => $data, 'colCount' => $colCount, 'chart' => $chart, 't' => $table]);
+            } else {
+            $chart[0] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '1')->sum('col3');
+            $chart[1] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '2')->sum('col3');
+            $chart[2] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '3')->sum('col3');
+            $chart[3] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '4')->sum('col3');
+            return view('table.show')->with(['on' => $ct, 'details' => $deets, 'db' => $data, 'colCount' => $colCount, 'chart' => $chart, 't' => $table]);
+            }
+        }
+        else
+            return view('table.show')->with(['on' => $ct, 'details' => $deets, 'db' => $data, 'colCount' => $colCount,'t' => $table]);
     }
 
     public function pagekosong()
