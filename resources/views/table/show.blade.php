@@ -11,10 +11,7 @@
                 </div>
                 @if ($on)
                     <div class="btn-toolbar mb-2 mb-md-0 pe-2">
-                        <div class="btn-group me-2">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-                        </div>
+                        
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -22,9 +19,11 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('table.show', $t) }}?charts=1&opt=1">Junction</a></li>
-                                <li><a class="dropdown-item" href="{{ route('table.show', $t) }}?charts=1&opt=2">Date And Time</a></li>
-                                <li><a class="dropdown-item" href="{{ route('table.show', $t) }}?charts=1&opt=3">Number of Vehicles</a></li>
+                                    <a class="dropdown-item"
+                                        href="{{ route('table.show', $t) }}?charts=1&opt=1">Most used Junction</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('table.show', $t) }}?charts=1&opt=2">2015.11.01 24 Hours</a></li>
+                                <li><a class="dropdown-item" href="{{ route('table.show', $t) }}?charts=1&opt=3">From 8 AM to 10 AM On Junction 1</a></li>
                             </ul>
                         </div>
                     </div>
@@ -32,10 +31,17 @@
             </div>
             @if ($on)
                 <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-                <label class="form-label" for="customRange1">Example range</label>
-                <div class="range">
-                    <input type="range" class="form-range" id="customRange1" />
-                </div>
+                <br>
+                <select onchange="changeChart(this)">
+                    <optgroup label="Select Chart"></optgroup>
+                    <option value="bar">Bar</option>
+                    <option value="line">Line</option>
+                    <option value="pie">Pie</option>
+                    <option value="radar">Radar</option>
+                    <option value="doughnut">Doughnut</option>
+                </select>
+                <br>
+                <h3>{{$reason}}</h3>
             @endif
         </main>
 
@@ -73,27 +79,154 @@
     </script>
     @if ($on)
         <script>
-            const ctx = document.getElementById('myChart');
+
             var x = @json($chart);
-            var title = 'Number';
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(x),
+            var title = "Number";
+            // setup 
+            const data = {
+                    @if ($o2)
+                        labels: @json($chart),
+                    @else
+                        labels: Object.keys(x),
+                    @endif
                     datasets: [{
                         label: title,
-                        data: Object.values(x),
+                        @if ($o2)
+                            data: @json($chart2),
+                        @else
+                            data: Object.values(x),
+                        @endif
+
+                        backgroundColor: [
+                        'rgba(255, 26, 104, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(0, 0, 0, 0.2)'
+                        ],
+                        borderColor: [
+                        'rgba(255, 26, 104, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(0, 0, 0, 1)'
+                        ],
                         borderWidth: 1
                     }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
+                };
+
+            // config 
+            const config = {
+            type: 'bar',
+            data,
+            options: {
+                scales: {
+                y: {
+                    beginAtZero: true
                 }
-            });
+                }
+            }
+            };
+            // config2 
+            const config2 = {
+            type: 'line',
+            data,
+            options: {
+                scales: {
+                y: {
+                    beginAtZero: true
+                }
+                }
+            }
+            };
+            // config3 
+            const config3 = {
+            type: 'pie',
+            data,
+            options: {
+            }
+            };
+            // config4 
+            const config4 = {
+            type: 'radar',
+            data,
+            options: {
+                scales: {
+                
+                }
+            }
+            };
+            // config5
+            const config5 = {
+            type: 'doughnut',
+            data,
+            options: {
+                scales: {
+                
+                }
+            }
+            };
+
+            // render init block
+            let myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+            );
+
+            function changeChart(chartType){
+                //console.log(chartType);
+                
+                console.log(chartType.value);
+                
+
+                if(chartType.value === 'bar'){
+                    myChart.destroy();
+                    myChart = new Chart(
+                    document.getElementById('myChart'),
+                    config
+                    );
+                }
+                if(chartType.value === 'line'){
+                    myChart.destroy();
+                    myChart = new Chart(
+                    document.getElementById('myChart'),
+                    config2
+                    );
+                }
+
+                if(chartType.value === 'pie'){
+                    myChart.destroy();
+                    myChart = new Chart(
+                    document.getElementById('myChart'),
+                    config3
+                    );
+                }
+
+                if(chartType.value === 'radar'){
+                    myChart.destroy();
+                    myChart = new Chart(
+                    document.getElementById('myChart'),
+                    config4
+                    );
+                }
+
+                if(chartType.value === 'doughnut'){
+                    myChart.destroy();
+                    myChart = new Chart(
+                    document.getElementById('myChart'),
+                    config5
+                    );
+                }
+                
+            }
+
+            // Instantly assign Chart.js version
+            const chartVersion = document.getElementById('chartVersion');
+            chartVersion.innerText = Chart.version;
         </script>
     @endif
 @endsection

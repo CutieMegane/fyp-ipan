@@ -137,29 +137,59 @@ class tableController extends Controller
         $deets = unserialize($table->details);
         $colCount = $table->colCount;
         $chart = array();
+        $o2 = 0;
+        $chart2 = 0;
+        $reason = null;
 
         if ($ct){
             if($request->opt == 2){
-                return view('table.show')->with(['on' => $ct, 'details' => $deets, 'db' => $data, 'colCount' => $colCount, 'chart' => $chart, 't' => $table]);
+                $start = '2015-11-01 00:00:00';
+                $end = '2015-11-01 23:00:00';
+                $query = DB::table($table->tableDBName)->whereBetween('col1', [$start, $end])->where('col2', '=', '2')->get();
+                $where = DB::table($table->tableDBName)->whereBetween('col1', [$start, $end])->where('col2', '=', '2')->get();
+                $max = DB::table($table->tableDBName)->whereBetween('col1', [$start, $end])->where('col2', '=', '2')->max('col3');
+                $when = DB::table($table->tableDBName)->whereBetween('col1', [$start, $end])->where('col2', '=', '2')->where('col3', '=', $max)->get();
+                $when2 = $when[0]->col1;
+                $where2 = $where[0]->col2;
+                $chart = $query->pluck('col1')->toArray();
+                $chart2 = $query->pluck('col3')->toArray();
+                $o2 = 1;
+                $reason = "The most busiest time is at $when2 with count of $max vehicles at junction $where2";
             }
             else if($request->opt == 3){
-                return view('table.show')->with(['on' => $ct, 'details' => $deets, 'db' => $data, 'colCount' => $colCount, 'chart' => $chart, 't' => $table]);
+                $start = '08:00:00';
+                $end = '10:00:00';
+                $query = DB::table($table->tableDBName)->whereRaw('TIME(col1) BETWEEN ? AND ?', [$start, $end])->where('col2', '=', '1')->get();
+                $avg = DB::table($table->tableDBName)->whereRaw('TIME(col1) BETWEEN ? AND ?', [$start, $end])->where('col2', '=', '1')->avg('col3');
+                $where = DB::table($table->tableDBName)->whereRaw('TIME(col1) BETWEEN ? AND ?', [$start, $end])->where('col2', '=', '1')->get();
+                $where2 = $where[0]->col2;
+                $chart = $query->pluck('col1')->toArray();
+                $chart2 = $query->pluck('col3')->toArray();
+                $o2 = 1;
+                $reason = "The average number of vehicles usage at junction $where2 from 2015 to 2017 on 8-10AM is $avg";
             } else {
             $chart[0] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '1')->sum('col3');
             $chart[1] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '2')->sum('col3');
             $chart[2] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '3')->sum('col3');
             $chart[3] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '4')->sum('col3');
-            return view('table.show')->with(['on' => $ct, 'details' => $deets, 'db' => $data, 'colCount' => $colCount, 'chart' => $chart, 't' => $table]);
+            $reason = "The most used junction is 1";
             }
         }
-        else
-            return view('table.show')->with(['on' => $ct, 'details' => $deets, 'db' => $data, 'colCount' => $colCount,'t' => $table]);
+        return view('table.show')->with(['on' => $ct, 'o2' => $o2, 'details' => $deets, 'db' => $data, 'colCount' => $colCount, 'chart' => $chart, 'chart2' => $chart2, 't' => $table, 'reason' => $reason]);
     }
 
-    public function pagekosong()
+
+
+    public function analytic(Request $request)
     {
-        
-        return view ('table.pagekosong');
+        return view ('table.analytic');
+    }
+    public function analyse(Request $request)
+    {
+        $data1 = $request->input('data1');
+        $data2 = $request->input('data2');
+        $data3 = $request->input('data3');
+        return view('table.analytic')->with(['dt1' => $data1, 'dt2' => $data2, 'dt3' => $data3]);
     }
 
     public function filter(Request $request, table $table)
@@ -173,13 +203,7 @@ class tableController extends Controller
 
         return view('filtergraph', compact('chartData'));
     }
-    public function showgraph(Request $request,table $table)
-    {
-        //function ni nk try show graph kat dlm table.show.
-       
 
-        return view ('table.show', compact('labels', 'data'));
-    }
     /**
      * Show the form for editing the specified resource.
      *

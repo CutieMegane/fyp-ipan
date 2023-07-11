@@ -33,6 +33,7 @@
                     <td>{{ $t->colCount }}</td>
                     <td>
                         <a class="btn btn-primary" href="{{ route('table.show', $t->id) }}">Show</a>
+                        <a class="btn btn-info" href="{{ route('table.analytic') }}">Analytic</a>
                     @if(Auth::user()->level)
                         <form action="{{ route('table.destroy', $t->id) }}" method="POST">
 

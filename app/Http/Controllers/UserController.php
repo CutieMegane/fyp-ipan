@@ -22,6 +22,12 @@ class UserController extends Controller
         return view('users.index',compact('user'));
     }
 
+    public function dashboardUser()
+    {
+        $user = User::all();
+        return view('users.dashboard', compact('user'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -50,6 +56,7 @@ class UserController extends Controller
             'name' => $request->name,
             'password' => $request->password,
             'email' => $request->email,
+            'level' => '0',
         ]);
   
         // User::create($request->all());
