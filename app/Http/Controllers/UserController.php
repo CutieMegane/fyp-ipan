@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,10 +17,16 @@ class UserController extends Controller
      */
     public function index()
     {
+        if(!(Auth::check())) //preventing null read on template
+            return redirect('/');
+
         $user = User::all();
         //dd($user);
-
-        return view('users.index',compact('user'));
+        if (env('APP_ROUTEPATH')  == 2)
+            return view('new.users', compact('user'));
+        else
+            return view('users.index', compact('user'));
+        
     }
 
     public function dashboardUser()
@@ -35,7 +42,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        if (env('APP_ROUTEPATH')  == 2)
+            return view('new.usercreate');
+        else
+            return view('users.create');
     }
 
     /**
@@ -72,7 +82,10 @@ class UserController extends Controller
      */
     public function show(user $user)
     {
-        return view('users.show',compact('user'));
+        if (env('APP_ROUTEPATH')  == 2)
+            return view('new.usershow', compact('user'));
+        else
+            return view('users.show', compact('user'));
     }
 
     /**
@@ -83,7 +96,10 @@ class UserController extends Controller
      */
     public function edit(user $user)
     {
-        return view('users.edit',compact('user'));
+        if (env('APP_ROUTEPATH')  == 2)
+            return view('new.useredit', compact('user'));
+        else
+            return view('users.edit', compact('user'));
     }
 
     /**

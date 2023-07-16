@@ -139,6 +139,7 @@ class tableController extends Controller
         $chart = array();
         $o2 = 0;
         $chart2 = 0;
+        $title = 0;
         $reason = null;
 
         if ($ct){

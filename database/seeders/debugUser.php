@@ -18,21 +18,24 @@ class debugUser extends Seeder
         //malas nk register
         DB::table('users')->insert([
             'name' => "Ralph",
-            'email' => 'hell@lo',
+            'email' => 'hell@o',
             'password' => Hash::make('qweasdrf'),
             'level' => '1',
+            'created_at' => now(),
         ]);
         DB::table('users')->insert([
             'name' => "irfan",
             'email' => 'irf@14',
             'password' => Hash::make('123'),
             'level' => '1',
+            'created_at' => now(),
         ]);
         DB::table('users')->insert([
             'name' => "ipan",
             'email' => 'irf@an',
             'password' => Hash::make('123'),
             'level' => '0',
+            'created_at' => now(),
         ]);
     }
 }
