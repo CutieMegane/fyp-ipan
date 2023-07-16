@@ -1,190 +1,64 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        font-family: sans-serif;
-      }
-      .chartMenu {
-        width: 100vw;
-        height: 40px;
-        background: #1A1A1A;
-        color: rgba(54, 162, 235, 1);
-      }
-      .chartMenu p {
-        padding: 10px;
-        font-size: 20px;
-      }
-      .chartCard {
-        width: 100vw;
-        height: calc(100vh - 40px);
-        background: rgba(54, 162, 235, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .chartBox {
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style type="text/css">
+      .chartBox{
         width: 700px;
-        padding: 20px;
-        border-radius: 20px;
-        border: solid 3px rgba(54, 162, 235, 1);
-        background: white;
       }
-    </style>
-  </head>
-  <body>
-    <div class="chartCard">
-      <div class="chartBox">
-        <canvas id="myChart"></canvas>
-
-        <select onchange="changeChart(this)">
-          <optgroup label="Select Chart"></optgroup>
-          <option value="bar">Bar</option>
-          <option value="line">Line</option>
-          <option value="pie">Pie</option>
-          <option value="radar">Radar</option>
-          <option value="doughnut">Doughnut</option>
-        </select>
-
-      </div>
+  </style>
+  <title>Document</title>
+</head>
+<body>
+    <div class="chartBox">
+      <canvas id="myChart"></canvas>
     </div>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
-    <script>
-    // setup 
-    const data = {
-      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      datasets: [{
-        label: 'Weekly Sales',
-        data: [18, 12, 6, 9, 12, 3, 9],
-        backgroundColor: [
-          'rgba(255, 26, 104, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(0, 0, 0, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 26, 104, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(0, 0, 0, 1)'
-        ],
-        borderWidth: 1
-      }]
-    };
 
-    // config 
-    const config = {
-      type: 'bar',
-      data,
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    };
-    // config2 
-    const config2 = {
-      type: 'line',
-      data,
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    };
-    // config3 
-    const config3 = {
-      type: 'pie',
-      data,
-      options: {
-      }
-    };
-    // config4 
-    const config4 = {
-      type: 'radar',
-      data,
-      options: {
-        scales: {
-          
-        }
-      }
-    };
-    // config5
-    const config5 = {
-      type: 'doughnut',
-      data,
-      options: {
-        scales: {
-          
-        }
-      }
-    };
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    // render init block
-    let myChart = new Chart(
-      document.getElementById('myChart'),
-      config
-    );
+<script>
+  const ctx = document.getElementById('myChart');
+  const data = [30, 50, 75, 70, 60, 90];
+  const backgroundcolor = [];
 
-    function changeChart(chartType){
-      //console.log(chartType);
-      console.log(chartType.value);
-      myChart.destroy();
-
-      if(chartType.value === 'bar'){
-        myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-        );
-      }
-      if(chartType.value === 'line'){
-        myChart = new Chart(
-        document.getElementById('myChart'),
-        config2
-        );
-      }
-
-      if(chartType.value === 'pie'){
-        myChart = new Chart(
-        document.getElementById('myChart'),
-        config3
-        );
-      }
-
-      if(chartType.value === 'radar'){
-        myChart = new Chart(
-        document.getElementById('myChart'),
-        config4
-        );
-      }
-
-      if(chartType.value === 'doughnut'){
-        myChart = new Chart(
-        document.getElementById('myChart'),
-        config5
-        );
-      }
+  for(i=0; i<data.length; i++){
+    if(data[i] < 40){
+      backgroundcolor.push('green')
     }
 
-    // Instantly assign Chart.js version
-    const chartVersion = document.getElementById('chartVersion');
-    chartVersion.innerText = Chart.version;
-    </script>
+    if(data[i] >= 40 && data[i] < 70){
+      backgroundcolor.push('yellow')
+    }
+    
+    if(data[i] >= 70){
+      backgroundcolor.push('red')
+    }
+  }
 
-  </body>
+  console.log(backgroundcolor);
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: data,
+        backgroundColor: backgroundcolor,
+        borderColor: backgroundcolor,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+</body>
 </html>

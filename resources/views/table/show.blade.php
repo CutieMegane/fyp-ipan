@@ -30,6 +30,7 @@
                 @endif
             </div>
             @if ($on)
+            <div class="chartBox">
                 <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
                 <br>
                 <select onchange="changeChart(this)">
@@ -41,6 +42,7 @@
                     <option value="doughnut">Doughnut</option>
                 </select>
                 <br>
+            </div>
                 <h3>{{$reason}}</h3>
             @endif
         </main>
@@ -81,7 +83,7 @@
         <script>
 
             var x = @json($chart);
-            var title = "Number";
+            var title = @json($title);
             // setup 
             const data = {
                     @if ($o2)

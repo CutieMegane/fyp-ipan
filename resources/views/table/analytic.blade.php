@@ -7,15 +7,16 @@
         </div>
     @endif
 
-<form action="{{ route ('table.analyse')}}" method="PUT">
+<form action="{{ route ('table.analyse')}}" method="POST">
     @csrf
-    @method('PUT')
+    @method('POST')
 
         <div class="container">
             <div class="row">
             <div class="col">
                 <label for="">Date</label>
                 <select class="form-select" aria-label="Default select example" name="data1">
+                    <option selected>Please Select Year</option>
                     <option value="1">2015</option>
                     <option value="2">2016</option>
                     <option value="3">2017</option>
@@ -24,6 +25,7 @@
             <div class="col">
                 <label for="">Junction</label>
                 <select class="form-select" aria-label="Default select example" name="data2">
+                    <option selected>Please Select Junction</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
                     <option value="3">Three</option>
@@ -35,6 +37,7 @@
                 <div class="col">
                 <label for="">Calculation</label>
                 <select class="form-select" aria-label="Default select example" name="data3">
+                    <option selected>Please Select Calculation Method</option>
                     <option value="1">Sum</option>
                     <option value="2">Average</option>
                 </select>

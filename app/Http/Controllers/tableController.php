@@ -168,14 +168,15 @@ class tableController extends Controller
                 $o2 = 1;
                 $reason = "The average number of vehicles usage at junction $where2 from 2015 to 2017 on 8-10AM is $avg";
             } else {
-            $chart[0] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '1')->sum('col3');
-            $chart[1] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '2')->sum('col3');
-            $chart[2] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '3')->sum('col3');
-            $chart[3] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '4')->sum('col3');
+            $chart['1'] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '1')->sum('col3');
+            $chart['2'] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '2')->sum('col3');
+            $chart['3'] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '3')->sum('col3');
+            $chart['4'] = DB::table($table->tableDBName)->select('col1')->where('col2', '=', '4')->sum('col3');
+            $title = "Sum of Vehicle in Juntion";
             $reason = "The most used junction is 1";
             }
         }
-        return view('table.show')->with(['on' => $ct, 'o2' => $o2, 'details' => $deets, 'db' => $data, 'colCount' => $colCount, 'chart' => $chart, 'chart2' => $chart2, 't' => $table, 'reason' => $reason]);
+        return view('table.show')->with(['on' => $ct, 'o2' => $o2, 'details' => $deets, 'db' => $data, 'colCount' => $colCount, 'chart' => $chart, 'chart2' => $chart2, 't' => $table, 'reason' => $reason, 'title' => $title]);
     }
 
 
@@ -190,18 +191,6 @@ class tableController extends Controller
         $data2 = $request->input('data2');
         $data3 = $request->input('data3');
         return view('table.analytic')->with(['dt1' => $data1, 'dt2' => $data2, 'dt3' => $data3]);
-    }
-
-    public function filter(Request $request, table $table)
-    {
-        // Retrieve the filtered data based on the selected option
-        $selectedOption = $request->input('filter_option');
-        $filteredData = DB::table($table->tableDBName)->where('column_name', $selectedOption)->get();
-
-        // Prepare the data for the chart
-        $chartData = $filteredData->pluck('value')->toArray();
-
-        return view('filtergraph', compact('chartData'));
     }
 
     /**
