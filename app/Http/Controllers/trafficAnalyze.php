@@ -6,7 +6,6 @@ use App\Models\traffic;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class trafficAnalyze extends Controller
 {
@@ -31,10 +30,62 @@ class trafficAnalyze extends Controller
      */
     public function analyze(Request $req)
     {
+        //handling both POST and GET in a function
         if ($req->isMethod('post')) {
-            dd($req);
-        } elseif ($req->isMethod('get')) {
-            return view("new.analyze");
+            $tr = 0; //initialization
+
+            //Operation sum
+            if ($req->opr == 'sum') {
+                $tr = [];
+                if ($req->start && $req->end) {
+                    if ($req->junc > 0 && $req->junc < 5)
+                        $tr = traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->sum('carCount')->paginate(20);
+                    else {
+                        for ($i = 1; $i < 5; $i++) {
+                            $tr[$i] = [
+                                'date' => null,
+                                'junc' => $i,
+                                'carCount' => traffic::where('junc', $i)->whereBetween('date', [$req->start, $req->end])->sum('carCount'),
+                            ];
+                        }
+                    }
+                }
+            } else if ($req->opr == 'avg') { //Operation average
+                $tr = [];
+                if ($req->start && $req->end) {
+                    if ($req->junc > 0 && $req->junc < 5)
+                        $tr = traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->avg('carCount')->paginate(20);
+                    else {
+                        for ($i = 1; $i < 5; $i++) {
+                            $tr[$i] = [
+                                'date' => null,
+                                'junc' => $i,
+                                'carCount' => traffic::where('junc', $i)->whereBetween('date', [$req->start, $req->end])->avg('carCount'),
+                            ];
+                        }
+                    }
+                }
+            } else { //No operation selected, get data without further filtering.
+                if ($req->start && $req->end) {
+                    if ($req->junc > 0 && $req->junc < 5)
+                        $tr = traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->paginate(20);
+                    else
+                        $tr = traffic::whereBetween('date', [$req->start, $req->end])->paginate(20);
+                } else {
+                    if ($req->junc > 0 && $req->junc < 5)
+                        $tr = traffic::where('junc', $req->junc)->paginate(20);
+                    else
+                        $tr = traffic::paginate(20);
+                }
+            }
+
+            //charts
+            $chartOn = 1;
+
+
+            //dd($tr);
+            $return = compact('tr', 'chartOn');
+            return view('new.table', $return);
         } else {
             return view("new.analyze");
         }
@@ -64,8 +115,8 @@ class trafficAnalyze extends Controller
 
             if ($colCount < 2)
                 return redirect()->route('new.create')->with('message', 'Column less than 2. Please check uploaded files.');
-        } else 
-            return redirect()->route('new.create')->with('message', 'Good job');  
+        } else
+            return redirect()->route('new.create')->with('message', 'Good job');
 
         //Start import...
         $sheet = $in->getActiveSheet();
@@ -82,7 +133,7 @@ class trafficAnalyze extends Controller
             $temp[] = $val;
         }
         //...to database via model
-        foreach($temp as $entry){
+        foreach ($temp as $entry) {
             $tr = new traffic();
             $tr->date = $entry[1];
             $tr->junc = $entry[2];
@@ -91,7 +142,7 @@ class trafficAnalyze extends Controller
         }
 
         //Delete temp files
-        unlink($req->file->path()); 
+        unlink($req->file->path());
         return redirect()->route('new.table');
     }
 
@@ -101,7 +152,8 @@ class trafficAnalyze extends Controller
     public function table(Request $request)
     {
         $tr = traffic::paginate(20);
-        return view('new.table', compact('tr'));
+        $chartOn = 0;
+        return view('new.table', compact('tr', 'chartOn'));
     }
 
     /**

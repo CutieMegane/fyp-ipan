@@ -111,7 +111,6 @@ class UserController extends Controller
      */
     public function update(Request $request, user $user)
     {
-        //dd($request);
         $request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -121,7 +120,8 @@ class UserController extends Controller
         $user->name = $request['name'];
         $user->email = $request['email'];
         $user->level= $request->level; 
-        if (!($request->password == 'null')) {
+        
+        if ($request->password != null) {
             $user->password = Hash::make($request->password);
         }
         
