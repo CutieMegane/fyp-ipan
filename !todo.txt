@@ -1,8 +1,8 @@
 #TODO
-- Login
-- Guest/User/Admin separation 20%
+- Analysis engine page
+- Charts on home
+- Save analysis
 - ??
-- Analysis engine
 - Profit!
 
 Done
@@ -10,3 +10,7 @@ Done
 - Create database with names and parameters done
 - Store table details done
 - Show tables done
+- User/admin separation done
+- Registered user level done
+- Drop AdminLTE partially done (custom route)
+- Single type table upload done (custom route)
