@@ -52,7 +52,7 @@
                                     <a class="nav-link" href="{{route('new.upload')}}">Upload</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Table</a>
+                                    <a class="nav-link" href="{{route('new.table')}}">Table</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{route('users.index')}}">Users</a>
