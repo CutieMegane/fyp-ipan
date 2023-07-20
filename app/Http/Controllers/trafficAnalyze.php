@@ -6,6 +6,7 @@ use App\Models\traffic;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class trafficAnalyze extends Controller
 {
@@ -25,6 +26,19 @@ class trafficAnalyze extends Controller
         return view("new.upload");
     }
 
+    /*
+     * Initial page for upload the excel file
+     */
+    public function analyze(Request $req)
+    {
+        if ($req->isMethod('post')) {
+            dd($req);
+        } elseif ($req->isMethod('get')) {
+            return view("new.analyze");
+        } else {
+            return view("new.analyze");
+        }
+    }
 
     /**
      * Show the form for creating a new resource.

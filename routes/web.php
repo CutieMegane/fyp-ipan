@@ -54,4 +54,5 @@ Route::resource('/users', UserController::class);
 Route::get('/home', [trafficAnalyze::class, 'index'])->name('new.home')->middleware('auth');
 Route::get('/upload', [trafficAnalyze::class, 'upload'])->name('new.upload')->middleware('auth');
 Route::post('/upload', [trafficAnalyze::class, 'create'])->name('new.create')->middleware('auth');
-Route::get('/table', [trafficAnalyze::class, 'table'])->name('new.table')->middleware('auth');
+Route::get('/tabel', [trafficAnalyze::class, 'table'])->name('new.table')->middleware('auth');
+Route::match(['get', 'post'], '/analyze', [trafficAnalyze::class, 'analyze'])->name('new.analyze')->middleware('auth');

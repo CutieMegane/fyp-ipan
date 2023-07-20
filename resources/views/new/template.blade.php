@@ -44,7 +44,7 @@
                                 <a class="nav-link" aria-current="page" href="{{ route('new.home') }}">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Analyze</a>
+                                <a class="nav-link" href="{{ route('new.analyze') }}">Analyze</a>
                             </li>
 
                             @if (Auth::user()->level)
