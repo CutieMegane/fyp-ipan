@@ -1,36 +1,25 @@
 @extends('new.template')
 
 @section('content')
+    @if ($chartOn)
+        <div class="container">
+            @push('scripts')
+                <script >
+                    var gg = {{$chartOn}};
+                    var chartType = 'bar';
+                    var title = 'Hello there';
+                    var x_label = 'Color';
+                    var y_label = 'Votes count';
+                    var legend_label = y_label;
+                    var x_value = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
+                    var data = [12, 19, 3, 5, 2, 3];
+                </script>
+                <script src="{{ asset('js/theChart.js') }}" defer></script>
+            @endpush
+            <canvas id="zeChat"></canvas>
+        </div>
+    @endif
     <div class="container">
-        @if ($chartOn)
-            <div class="container">
-                <canvas id="zeChat"></canvas>
-            </div>
-
-                        
-            <script>
-                const ctx = document.getElementById('zeChat');
-
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                        datasets: [{
-                            label: '# of Votes',
-                            data: [12, 19, 3, 5, 2, 3],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            </script>
-        @endif
         <div class="container btn-groups">
             @if ($tr instanceof \Illuminate\Pagination\LengthAwarePaginator)
                 {!! $tr->links() !!}
