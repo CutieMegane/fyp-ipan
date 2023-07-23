@@ -1,6 +1,6 @@
 import Chart from "chart.js/auto";
 
-var test = gg;
+var test = "zz";
 //expect data from Laravel here
 
 window.helloThere = function (){ //example global JS run
@@ -17,7 +17,7 @@ new Chart(ctx, {
         labels: x_value,
         datasets: [
             {
-                label: legend_label,
+                label: y_label,
                 data: data,
                 borderWidth: 1,
             },

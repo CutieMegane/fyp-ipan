@@ -1,18 +1,20 @@
 @extends('new.template')
 
 @section('content')
-    @if ($chartOn)
+    @if ($chartData)
         <div class="container">
             @push('scripts')
-                <script >
-                    var gg = {{$chartOn}};
-                    var chartType = 'bar';
-                    var title = 'Hello there';
-                    var x_label = 'Color';
-                    var y_label = 'Votes count';
-                    var legend_label = y_label;
-                    var x_value = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
-                    var data = [12, 19, 3, 5, 2, 3];
+                <script>
+                    var gg = "wp" //flowtesto
+
+                    var bkend = JSON.parse('@json($chartData)');
+                    //from Controller -> Blade in json
+                    var chartType = bkend.chartType;
+                    var title = bkend.title;
+                    var x_label = bkend.x_label;
+                    var y_label = bkend.y_label;
+                    var x_value = bkend.x_value;
+                    var data = bkend.data;
                 </script>
                 <script src="{{ asset('js/theChart.js') }}" defer></script>
             @endpush
@@ -56,6 +58,7 @@
                 </tbody>
 
             </table>
+            @json($chartData)
         </div>
     </div>
 @endsection

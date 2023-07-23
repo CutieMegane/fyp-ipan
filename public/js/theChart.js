@@ -15140,7 +15140,7 @@ new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, {
   data: {
     labels: x_value,
     datasets: [{
-      label: legend_label,
+      label: y_label,
       data: data,
       borderWidth: 1
     }]
