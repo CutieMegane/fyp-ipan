@@ -1,36 +1,27 @@
 @extends('new.template')
 
 @section('content')
+    @if ($chartData)
+        <div class="container">
+            @push('scripts')
+                <script>
+                    var gg = "wp" //flowtesto
+
+                    var bkend = JSON.parse('@json($chartData)');
+                    //from Controller -> Blade in json
+                    var chartType = bkend.chartType;
+                    var title = bkend.title;
+                    var x_label = bkend.x_label;
+                    var y_label = bkend.y_label;
+                    var x_value = bkend.x_value;
+                    var data = bkend.data;
+                </script>
+                <script src="{{ asset('js/theChart.js') }}" defer></script>
+            @endpush
+            <canvas id="zeChat"></canvas>
+        </div>
+    @endif
     <div class="container">
-        @if ($chartOn)
-            <div class="container">
-                <canvas id="zeChat"></canvas>
-            </div>
-
-                        
-            <script>
-                const ctx = document.getElementById('zeChat');
-
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                        datasets: [{
-                            label: '# of Votes',
-                            data: [12, 19, 3, 5, 2, 3],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            </script>
-        @endif
         <div class="container btn-groups">
             @if ($tr instanceof \Illuminate\Pagination\LengthAwarePaginator)
                 {!! $tr->links() !!}
@@ -67,6 +58,7 @@
                 </tbody>
 
             </table>
+            @json($chartData)
         </div>
     </div>
 @endsection

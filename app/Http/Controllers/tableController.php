@@ -177,7 +177,17 @@ class tableController extends Controller
             $reason = "The most used junction is 1";
             }
         }
-        return view('table.show')->with(['on' => $ct, 'o2' => $o2, 'details' => $deets, 'db' => $data, 'colCount' => $colCount, 'chart' => $chart, 'chart2' => $chart2, 't' => $table, 'reason' => $reason, 'title' => $title]);
+        return view('table.show')->with([
+            'on' => $ct, 
+            'o2' => $o2, 
+            'details' => $deets, 
+            'db' => $data, 
+            'colCount' => $colCount, 
+            'chart' => $chart, 
+            'chart2' => $chart2, 
+            't' => $table, 
+            'reason' => $reason, 
+            'title' => $title]);
     }
 
 

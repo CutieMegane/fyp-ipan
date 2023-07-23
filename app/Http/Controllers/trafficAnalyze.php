@@ -33,28 +33,58 @@ class trafficAnalyze extends Controller
         //handling both POST and GET in a function
         if ($req->isMethod('post')) {
             $tr = 0; //initialization
+            $chartData = 0; //Chart variables
+            $val = 0;
+
 
             //Operation sum
             if ($req->opr == 'sum') {
                 $tr = [];
                 if ($req->start && $req->end) {
-                    if ($req->junc > 0 && $req->junc < 5)
-                        $tr = traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->sum('carCount')->paginate(20);
-                    else {
+                    if ($req->junc > 0 && $req->junc < 5) {
+                        $val = traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->sum('carCount');
+                        $tr[$req->junc] = [
+                            'date' => null,
+                            'junc' => $req->junc,
+                            'carCount' => $val,
+                        ];
+                        $chartData = [
+                            'chartType' => 'pic',
+                            'title' => 'Number of cars in ' . $req->junc . ' within ' . $req->start . ' and ' . $req->end,
+                            'x_label' => 'Junction',
+                            'y_label' => "Number of cars",
+                            'x_value' => $req->junc,
+                            'data' => $val,
+                        ];
+                    } else {
+                        $val = array();
                         for ($i = 1; $i < 5; $i++) {
+                            $val[] = traffic::where('junc', $i)->whereBetween('date', [$req->start, $req->end])->sum('carCount');
                             $tr[$i] = [
                                 'date' => null,
                                 'junc' => $i,
-                                'carCount' => traffic::where('junc', $i)->whereBetween('date', [$req->start, $req->end])->sum('carCount'),
+                                'carCount' => $val[$i-1],
                             ];
                         }
+                        $chartData = [
+                            'chartType' => 'bar',
+                            'title' => 'Number of cars in all junction within ' . $req->start . ' and ' . $req->end,
+                            'x_label' => 'Junction',
+                            'y_label' => "Number of cars",
+                            'x_value' => [1, 2, 3, 4],
+                            'data' => $val,
+                        ];
                     }
                 }
             } else if ($req->opr == 'avg') { //Operation average
                 $tr = [];
                 if ($req->start && $req->end) {
                     if ($req->junc > 0 && $req->junc < 5)
-                        $tr = traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->avg('carCount')->paginate(20);
+                    $tr[$req->junc] = [
+                        'date' => null,
+                        'junc' => $req->junc,
+                        'carCount' => traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->avg('carCount'),
+                    ];
                     else {
                         for ($i = 1; $i < 5; $i++) {
                             $tr[$i] = [
@@ -78,13 +108,8 @@ class trafficAnalyze extends Controller
                         $tr = traffic::paginate(20);
                 }
             }
-
-            //charts
-            $chartOn = 1;
-
-
             //dd($tr);
-            $return = compact('tr', 'chartOn');
+            $return = compact('tr', 'chartData');
             return view('new.table', $return);
         } else {
             return view("new.analyze");
@@ -152,8 +177,8 @@ class trafficAnalyze extends Controller
     public function table(Request $request)
     {
         $tr = traffic::paginate(20);
-        $chartOn = 0;
-        return view('new.table', compact('tr', 'chartOn'));
+        $chartData = null;
+        return view('new.table', compact('tr', 'chartData'));
     }
 
     /**

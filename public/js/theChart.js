@@ -15119,12 +15119,58 @@ function styleChanged(style, prevStyle) {
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-/*!******************************!*\
-  !*** ./resources/js/weee.js ***!
-  \******************************/
+/*!**********************************!*\
+  !*** ./resources/js/theChart.js ***!
+  \**********************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var chart_js_auto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chart.js/auto */ "./node_modules/chart.js/auto/auto.js");
 
+var test = gg;
+//expect data from Laravel here
+
+window.helloThere = function () {
+  //example global JS run
+  console.log('yow');
+  console.log(test);
+  console.log(gg);
+};
+var ctx = document.getElementById("zeChat");
+new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, {
+  type: chartType,
+  data: {
+    labels: x_value,
+    datasets: [{
+      label: y_label,
+      data: data,
+      borderWidth: 1
+    }]
+  },
+  options: {
+    plugins: {
+      title: {
+        display: true,
+        text: title
+      }
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: x_label,
+          align: "end"
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: y_label,
+          align: "end"
+        },
+        beginAtZero: true
+      }
+    }
+  }
+});
 })();
 
 /******/ })()
