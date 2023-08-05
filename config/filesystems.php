@@ -53,6 +53,15 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
 
+        'google' => [
+            'driver' => 'google',
+            'clientId' => env('337717579036-i59ktc3jtmr026af68uhi55ahfqkrvok.apps.googleusercontent.com'),
+            'clientSecret' => env('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'),
+            'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
+            'folder' => env('GOOGLE_DRIVE_FOLDER'), // without folder is root of drive or team drive
+            //'teamDriveId' => env('GOOGLE_DRIVE_TEAM_DRIVE_ID'),
+        ],
+
     ],
 
     /*

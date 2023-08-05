@@ -157,3 +157,151 @@
                 }
             });
         </script>
+
+        <?php
+
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class GoogleDriveServiceProvider extends ServiceProvider
+{
+    /**
+     * Register services.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
+    {
+        //
+    }
+}
+
+    <script>
+        function download() {
+            // create link to the image
+            const imageLink = document.createElement('a');
+            // create an image from the canvas
+            const canvas = document.getElementById('zeChart');
+            // create a naming for the download imgae
+            imageLink.download = 'canvas.png';
+            // setting the quality of the image
+            imageLink.href = canvas.toDataURL('image/png', 1);
+            // execute image download function
+            imageLink.click();
+        };
+
+
+        function downloadPDF() {
+            const canvas = document.getElementById('zeChart');
+            // Create Image
+            const canvasImage = canvas.toDataURL('image/jpeg', 1);
+            //console.log(canvasImage);
+            // Image must go to pdf 
+
+            let pdf = new jsPDF('landscape');
+            pdf.setFontSize(20);
+            pdf.addImage(canvasImage, 'JPEG', 15, 15, 280, 150);
+            pdf.save('chart.pdf');
+        };
+    </script>
+
+                        <select>
+                            <option value="cnt">Count</option>
+                            <option value="max">Max</option>
+                            <option value="min">Min</option>
+                        </select>
+
+legend: {
+                        onClick: (evt, legendItem, legend) => {
+                            const index = legend.chart.data.labels.indexOf(legendItem.text);
+                            legend.chart.toggleDataVisibility(index);
+                            legend.chart.update();
+                        },
+                        labels: {
+                            generateLabels: (chart) => {
+                                let visibility = [];
+                                for (let i = 0; i < chart.data.labels.length; i++) {
+                                    if (chart.getDataVisibility(i) == true) {
+                                        visibility.push(false);
+                                    } else {
+                                        visibility.push(true);
+                                    }
+                                };
+                                console.table(visibility);
+                                return chart.data.lables.map(
+                                    (label, index) => ({
+                                        text: label,
+                                        strokeStyle: chart.data.datasets[0].borderColor[index],
+                                        filltyle: chart.data.datasets[0].backgroundColor[index],
+                                        hidden: visibility[index],
+                                    })
+                                )
+                            }
+                        }
+                    }
+                options:{
+                  plugins:{
+                    tooltip: {
+                      enabled: false,
+                    },
+                    datalabels: {
+                      formatter: (value, context) => {
+                        //console.log(value);
+                        //console.log(context.chart.data.datasets[0].data);
+                        const datapoint = context.chart.data.datasets[0].data;
+                        function totalSum(total, datapoint){
+                          return total + datapoint;
+                        }
+                        const totalValue = datapoint.reduce(totalSum, 0);
+                        const percentageValue = (value / totalValue * 100).toFixed(1);
+                        const display = [Sales: $${value}, ${percentageValue}%];
+                        return display;
+                      }
+                    }
+                  }
+                },plugins:[ChartDataLabels]
+
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use App\Models\traffic;
+
+
+class randomTable extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $start = '2020-01-01';
+        $end = '2022-12-12';
+        $current = $start;
+
+        while ($current <= $end) {
+            for ($k = 1; $k <= 4; $k++) {
+                traffic::create([
+                    'date' => $current,
+                    'junc' => $k,
+                    'carCount' => mt_rand(10,150),
+                ]);
+            }
+            
+            $current = date('Y-m-d', strtotime($current . ' +1 day'));
+        }
+    }
+}
+
+
+
+'MasterRecordNumber','Year','Month','Day','Weekend','Hour','CollisionType','InjuryType','PrimaryFactor','ReportedLocation','Latitude','Longitude',

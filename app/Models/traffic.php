@@ -10,6 +10,15 @@ class traffic extends Model
     public $table = "trafficData";
 
     protected $fillable = [
-        'date', 'junc', 'carCount'
+
+        'time', 
+        'weekend',
+        'collisionType', 
+        'injuryType', 
+        'primaryFactor', 
+        'reportedLocation', 
+        'lat', 
+        'long'
+
     ];
 }

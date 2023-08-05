@@ -11,7 +11,7 @@
                 </div>
                 @if ($on)
                     <div class="btn-toolbar mb-2 mb-md-0 pe-2">
-                        
+
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -19,31 +19,35 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li>
-                                    <a class="dropdown-item"
-                                        href="{{ route('table.show', $t) }}?charts=1&opt=1">Most used Junction</a>
+                                    <a class="dropdown-item" href="{{ route('table.show', $t) }}?charts=1&opt=1">Most used
+                                        Junction</a>
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('table.show', $t) }}?charts=1&opt=2">2015.11.01 24 Hours</a></li>
-                                <li><a class="dropdown-item" href="{{ route('table.show', $t) }}?charts=1&opt=3">From 8 AM to 10 AM On Junction 1</a></li>
+                                <li><a class="dropdown-item" href="{{ route('table.show', $t) }}?charts=1&opt=2">2015.11.01
+                                        24 Hours</a></li>
+                                <li><a class="dropdown-item" href="{{ route('table.show', $t) }}?charts=1&opt=3">From 8 AM
+                                        to 10 AM On Junction 1</a></li>
                             </ul>
                         </div>
                     </div>
                 @endif
             </div>
             @if ($on)
-            <div class="chartBox">
-                <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-                <br>
-                <select onchange="changeChart(this)">
-                    <optgroup label="Select Chart"></optgroup>
-                    <option value="bar">Bar</option>
-                    <option value="line">Line</option>
-                    <option value="pie">Pie</option>
-                    <option value="radar">Radar</option>
-                    <option value="doughnut">Doughnut</option>
-                </select>
-                <br>
-            </div>
-                <h3>{{$reason}}</h3>
+                <div class="chartBox">
+                    <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+                    <br>
+                    <select onchange="changeChart(this)">
+                        <optgroup label="Select Chart"></optgroup>
+                        <option value="bar">Bar</option>
+                        <option value="line">Line</option>
+                        <option value="pie">Pie</option>
+                        <option value="radar">Radar</option>
+                        <option value="doughnut">Doughnut</option>
+                    </select>
+                    <br>
+                    <button onclick="download()">Download</button>
+                    <button onclick="downloadPDF()">PDF Download</button>
+                </div>
+                <h3>{{ $reason }}</h3>
             @endif
         </main>
 
@@ -79,27 +83,30 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
         integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"
+        integrity="sha512-U5C477Z8VvmbYAoV4HDq17tf4wG6HXPC6/KM9+0/wEXQQ13gmKY2Zb0Z2vu0VNUWch4GlJ+Tl/dfoLOH4i2msw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
     @if ($on)
         <script>
-
             var x = @json($chart);
             var title = @json($title);
             // setup 
             const data = {
+                @if ($o2)
+                    labels: @json($chart),
+                @else
+                    labels: Object.keys(x),
+                @endif
+                datasets: [{
+                    label: title,
                     @if ($o2)
-                        labels: @json($chart),
+                        data: @json($chart2),
                     @else
-                        labels: Object.keys(x),
+                        data: Object.values(x),
                     @endif
-                    datasets: [{
-                        label: title,
-                        @if ($o2)
-                            data: @json($chart2),
-                        @else
-                            data: Object.values(x),
-                        @endif
 
-                        backgroundColor: [
+                    backgroundColor: [
                         'rgba(255, 26, 104, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
                         'rgba(255, 206, 86, 0.2)',
@@ -107,8 +114,8 @@
                         'rgba(153, 102, 255, 0.2)',
                         'rgba(255, 159, 64, 0.2)',
                         'rgba(0, 0, 0, 0.2)'
-                        ],
-                        borderColor: [
+                    ],
+                    borderColor: [
                         'rgba(255, 26, 104, 1)',
                         'rgba(54, 162, 235, 1)',
                         'rgba(255, 206, 86, 1)',
@@ -116,114 +123,139 @@
                         'rgba(153, 102, 255, 1)',
                         'rgba(255, 159, 64, 1)',
                         'rgba(0, 0, 0, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                };
+                    ],
+                    borderWidth: 1
+                }]
+            };
 
             // config 
             const config = {
-            type: 'bar',
-            data,
-            options: {
-                scales: {
-                y: {
-                    beginAtZero: true
+                type: 'bar',
+                data,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
                 }
-                }
-            }
             };
             // config2 
             const config2 = {
-            type: 'line',
-            data,
-            options: {
-                scales: {
-                y: {
-                    beginAtZero: true
+                type: 'line',
+                data,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
                 }
-                }
-            }
             };
             // config3 
             const config3 = {
-            type: 'pie',
-            data,
-            options: {
-            }
+                type: 'pie',
+                data,
+                options: {}
             };
             // config4 
             const config4 = {
-            type: 'radar',
-            data,
-            options: {
-                scales: {
-                
+                type: 'radar',
+                data,
+                options: {
+                    scales: {
+
+                    }
                 }
-            }
             };
             // config5
             const config5 = {
-            type: 'doughnut',
-            data,
-            options: {
-                scales: {
-                
+                type: 'doughnut',
+                data,
+                options: {
+                    scales: {
+
+                    }
                 }
-            }
             };
 
             // render init block
             let myChart = new Chart(
-            document.getElementById('myChart'),
-            config
+                document.getElementById('myChart'),
+                config
             );
 
-            function changeChart(chartType){
+            function changeChart(chartType) {
                 //console.log(chartType);
-                
+
                 console.log(chartType.value);
-                
 
-                if(chartType.value === 'bar'){
+
+                if (chartType.value === 'bar') {
                     myChart.destroy();
                     myChart = new Chart(
-                    document.getElementById('myChart'),
-                    config
+                        document.getElementById('myChart'),
+                        config
                     );
                 }
-                if(chartType.value === 'line'){
+                if (chartType.value === 'line') {
                     myChart.destroy();
                     myChart = new Chart(
-                    document.getElementById('myChart'),
-                    config2
-                    );
-                }
-
-                if(chartType.value === 'pie'){
-                    myChart.destroy();
-                    myChart = new Chart(
-                    document.getElementById('myChart'),
-                    config3
+                        document.getElementById('myChart'),
+                        config2
                     );
                 }
 
-                if(chartType.value === 'radar'){
+                if (chartType.value === 'pie') {
                     myChart.destroy();
                     myChart = new Chart(
-                    document.getElementById('myChart'),
-                    config4
+                        document.getElementById('myChart'),
+                        config3
                     );
                 }
 
-                if(chartType.value === 'doughnut'){
+                if (chartType.value === 'radar') {
                     myChart.destroy();
                     myChart = new Chart(
-                    document.getElementById('myChart'),
-                    config5
+                        document.getElementById('myChart'),
+                        config4
                     );
                 }
-                
+
+                if (chartType.value === 'doughnut') {
+                    myChart.destroy();
+                    myChart = new Chart(
+                        document.getElementById('myChart'),
+                        config5
+                    );
+                }
+
+            }
+
+            function download() {
+                // create link to the image
+                const imageLink = document.createElement('a');
+                // create an image from the canvas
+                const canvas = document.getElementById('myChart');
+                // create a naming for the download imgae
+                imageLink.download = 'canvas.png';
+                // setting the quality of the image
+                imageLink.href = canvas.toDataURL('image/png', 1);
+                // execute image download function
+                imageLink.click();
+            }
+
+            function downloadPDF() {
+                const canvas = document.getElementById('myChart');
+                // Create Image
+                const canvasImage = canvas.toDataURL('image/jpeg', 1);
+                console.log(canvasImage);
+                // Image must go to pdf 
+
+                let pdf = new jsPDF('landscape');
+                pdf.setFontSize(20);
+                pdf.addImage(canvasImage, 'JPEG', 15, 15, 280, 150);
+                pdf.save('chart.pdf');
             }
 
             // Instantly assign Chart.js version

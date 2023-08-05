@@ -18,17 +18,14 @@ use App\Http\Controllers\trafficAnalyze;
 |
 */
 
-Route::get('/', function () {
-    if (env('APP_ROUTEPATH')  == 2)
-        return redirect()->route('new.home');
-    else
-        return redirect()->route('table.index');
-});
 
 /*
-Route::get('/chartjs', function (){
-    return view('chartjs');
-});
+Route::get('/' , function(){
+    return redirect()->route('new.home');
+})
+*/
+/*
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Legacy
@@ -37,6 +34,20 @@ Route::get('/dynamicViews', [dynamicPage::class, 'index'])->name('dynamic.index'
 Route::post('/dynamicViews/create',[dynamicPage::class, 'create'])->name('dynamic.create');
 Route::get('/dynamicViews/index2', [dynamicPage::class, 'index2'])->name('dynamic.index2');     //debug
 */
+#Home Page Route
+/*
+Route::get('/', function () {
+        return redirect()->route('new.home');
+   
+});
+*/
+
+Route::get('/', function () {
+    if (env('APP_ROUTEPATH')  == 2)
+        return redirect()->route('new.home');
+    else
+        return redirect()->route('table.index');
+});
 
 #Auth
 Auth::routes();
@@ -56,3 +67,8 @@ Route::get('/upload', [trafficAnalyze::class, 'upload'])->name('new.upload')->mi
 Route::post('/upload', [trafficAnalyze::class, 'create'])->name('new.create')->middleware('auth');
 Route::get('/tabel', [trafficAnalyze::class, 'table'])->name('new.table')->middleware('auth');
 Route::match(['get', 'post'], '/analyze', [trafficAnalyze::class, 'analyze'])->name('new.analyze')->middleware('auth');
+
+#test
+Route::get('/chartjs', function (){
+    return view('chartjs');
+});

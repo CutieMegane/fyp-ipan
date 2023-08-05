@@ -15124,8 +15124,11 @@ var __webpack_exports__ = {};
   \**********************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var chart_js_auto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chart.js/auto */ "./node_modules/chart.js/auto/auto.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.js");
 
-var test = gg;
+
+chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"].register(chart_js__WEBPACK_IMPORTED_MODULE_1__.Colors);
+var test = "zz";
 //expect data from Laravel here
 
 window.helloThere = function () {
@@ -15134,15 +15137,59 @@ window.helloThere = function () {
   console.log(test);
   console.log(gg);
 };
+window.download = function () {
+  // create an image from the canvas
+  var canvas = document.getElementById('zeChat');
+  //console.log(canvas);
+  // create link to the image
+  var imageLink = document.createElement('a');
+  // create a naming for the download imgae
+  imageLink.download = 'canvas.png';
+  // setting the quality of the image
+  imageLink.href = canvas.toDataURL();
+  // execute image download function
+  imageLink.click();
+};
+window.downloadPDF = function () {
+  // create an image from the canvas
+  var canvas = document.getElementById('zeChat');
+  // Create Image
+  var canvasImage = canvas.toDataURL('image/jpeg', 1);
+  //console.log(canvasImage);
+  // Image must go to pdf 
+  var pdf = new jsPDF('landscape');
+  pdf.setFontSize(20);
+  pdf.addImage(canvasImage, 'PNG', 15, 15, 280, 150);
+  pdf.save('chart.pdf');
+};
+window.changeType = function (ct) {
+  console.log(ct.value);
+  if (ct.value === 'bar') {
+    config.type = 'bar';
+  } else if (ct.value === 'line') {
+    config.type = 'line';
+  } else if (ct.value === 'pie') {
+    config.type = 'pie';
+  } else if (ct.value === 'radar') {
+    config.type = 'radar';
+  }
+  console.log(config.type);
+  zeChat.destroy();
+  zeChat = new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](document.getElementById('zeChat'), config);
+};
 var ctx = document.getElementById("zeChat");
-new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, {
+
+//new Chart(ctx, {
+var config = {
   type: chartType,
   data: {
     labels: x_value,
     datasets: [{
       label: y_label,
       data: data,
-      borderWidth: 1
+      borderWidth: 1,
+      backgroundColor: ['rgba(255, 26, 104, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(0, 0, 0, 0.2)'],
+      borderColor: ['rgba(255, 26, 104, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)', 'rgba(0, 0, 0, 1)']
     }]
   },
   options: {
@@ -15150,7 +15197,8 @@ new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, {
       title: {
         display: true,
         text: title
-      }
+      },
+      plugin: plugin
     },
     scales: {
       x: {
@@ -15170,7 +15218,19 @@ new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, {
       }
     }
   }
-});
+};
+var plugin = {
+  id: 'customCanvasBackgroundColor',
+  beforeDraw: function beforeDraw(chart, args, options) {
+    var ctx = chart.ctx;
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-over';
+    ctx.fillStyle = options.color || '#99ffff';
+    ctx.fillRect(0, 0, chart.width, chart.height);
+    ctx.restore();
+  }
+};
+var zeChat = new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](document.getElementById('zeChat'), config);
 })();
 
 /******/ })()

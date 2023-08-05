@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('trafficData', function (Blueprint $table){
             $table->id();
-            $table->integer('junc');
-            $table->unsignedInteger('carCount');
-            $table->date('date');
+            $table->dateTime('time');
+            $table->boolean('weekend');
+            $table->string('collisionType')->nullable();
+            $table->string('injuryType')->nullable();
+            $table->string('primaryFactor')->nullable();
+            $table->string('reportedLocation')->nullable();
+            $table->float('lat')->nullable();
+            $table->float('long')->nullable();
             $table->timestamps();
         });
     }

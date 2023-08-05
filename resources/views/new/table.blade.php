@@ -9,7 +9,7 @@
 
                     var bkend = JSON.parse('@json($chartData)');
                     //from Controller -> Blade in json
-                    var chartType = bkend.chartType;
+                    var chartType = 'bar';
                     var title = bkend.title;
                     var x_label = bkend.x_label;
                     var y_label = bkend.y_label;
@@ -18,8 +18,23 @@
                 </script>
                 <script src="{{ asset('js/theChart.js') }}" defer></script>
             @endpush
-            <canvas id="zeChat"></canvas>
+            <div width="700">
+                <canvas class="my-4 w-100" id="zeChat" width="900" height="380"></canvas>
+            </div>
+            <select onchange="changeType(this)">
+                <optgroup label="Select Chart"></optgroup>
+                <option value="bar">Bar</option>
+                <option value="line">Line</option>
+                <option value="pie">Pie</option>
+                <option value="radar">Radar</option>
+            </select>
+            <br>
+            <br>
+            <button onclick="download()">Download</button>
+            <button onclick="downloadPDF()">PDF Download</button>
+
         </div>
+        <br>
     @endif
     <div class="container">
         <div class="container btn-groups">
@@ -33,32 +48,47 @@
                 <thead>
                     <tr>
                         <th scope="col">Date</th>
-                        <th scope="col">Junction</th>
-                        <th scope="col">Vehicle count</th>
+                        <th scope="col">Weekend</th>
+                        <th scope="col">Collision Type</th>
+                        <th scope="col">Injury Type</th>
+                        <th scope="col">Primary Factor</th>
+                        <th scope="col">reportedLocation</th>
+                        <th scope="col">Latitude</th>
+                        <th scope="col">Longlitude</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if ($tr instanceof \Illuminate\Pagination\LengthAwarePaginator)
                         @foreach ($tr as $t)
                             <tr>
-                                <th scope="row">{{ $t->date }}</th>
-                                <td>{{ $t->junc }}</td>
-                                <td>{{ $t->carCount }}</td>
+                                <th scope="row">{{ $t->time }}</th>
+                                <td>{{ $t->weekend }}</td>
+                                <td>{{ $t->collisionType }}</td>
+                                <td>{{ $t->injuryType }}</td>
+                                <td>{{ $t->primaryFactor }}</td>
+                                <td>{{ $t->reportedLocation }}</td>
+                                <td>{{ $t->lat }}</td>
+                                <td>{{ $t->long }}</td>
                             </tr>
                         @endforeach
                     @else
                         @foreach ($tr as $t)
                             <tr>
-                                <th scope="row">{{ $t['date'] }}</th>
-                                <td>{{ $t['junc'] }}</td>
-                                <td>{{ $t['carCount'] }}</td>
+                                <th scope="row">{{ $t['time'] }}</th>
+                                <td>{{ $t['weekend'] }}</td>
+                                <td>{{ $t['collisionType'] }}</td>
+                                <td>{{ $t['injuryType'] }}</td>
+                                <td>{{ $t['primaryFactor'] }}</td>
+                                <td>{{ $t['reportedLocation'] }}</td>
+                                <td>{{ $t['lat'] }}</td>
+                                <td>{{ $t['long'] }}</td>
                             </tr>
                         @endforeach
                     @endif
                 </tbody>
 
             </table>
-            @json($chartData)
+            {{-- @json($chartData) --}}
         </div>
     </div>
 @endsection

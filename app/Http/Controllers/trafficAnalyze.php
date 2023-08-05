@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\traffic;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
@@ -49,7 +50,6 @@ class trafficAnalyze extends Controller
                             'carCount' => $val,
                         ];
                         $chartData = [
-                            'chartType' => 'pic',
                             'title' => 'Number of cars in ' . $req->junc . ' within ' . $req->start . ' and ' . $req->end,
                             'x_label' => 'Junction',
                             'y_label' => "Number of cars",
@@ -67,7 +67,7 @@ class trafficAnalyze extends Controller
                             ];
                         }
                         $chartData = [
-                            'chartType' => 'bar',
+                            
                             'title' => 'Number of cars in all junction within ' . $req->start . ' and ' . $req->end,
                             'x_label' => 'Junction',
                             'y_label' => "Number of cars",
@@ -79,20 +79,38 @@ class trafficAnalyze extends Controller
             } else if ($req->opr == 'avg') { //Operation average
                 $tr = [];
                 if ($req->start && $req->end) {
-                    if ($req->junc > 0 && $req->junc < 5)
+                    if ($req->junc > 0 && $req->junc < 5){
+                    $val = traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->avg('carCount');
                     $tr[$req->junc] = [
                         'date' => null,
                         'junc' => $req->junc,
-                        'carCount' => traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->avg('carCount'),
+                        'carCount' => $val,
                     ];
+                    $chartData = [
+                        'title' => 'Average number of cars in all junction within ' . $req->start . ' and ' . $req->end,
+                        'x_label' => 'Junction',
+                        'y_label' => "Number of cars",
+                        'x_value' =>  $req->junc,
+                        'data' => $val,
+                    ];
+                }
                     else {
+                        $val = array();
                         for ($i = 1; $i < 5; $i++) {
+                            $val[] = traffic::where('junc', $i)->whereBetween('date', [$req->start, $req->end])->avg('carCount');
                             $tr[$i] = [
                                 'date' => null,
                                 'junc' => $i,
-                                'carCount' => traffic::where('junc', $i)->whereBetween('date', [$req->start, $req->end])->avg('carCount'),
+                                'carCount' => $val[$i-1],
                             ];
                         }
+                        $chartData = [
+                            'title' => 'Average number of cars in all junction within ' . $req->start . ' and ' . $req->end,
+                            'x_label' => 'Junction',
+                            'y_label' => "Number of cars",
+                            'x_value' => [1, 2, 3, 4],
+                            'data' => $val,
+                        ];
                     }
                 }
             } else { //No operation selected, get data without further filtering.
@@ -151,18 +169,34 @@ class trafficAnalyze extends Controller
         for ($row = 2; $row <= $rowH; $row++) {
             $val = array();
             $j = 1;
-            for ($col = 'A'; $col <= $colH; $col++) {
+            for ($col = 'B'; $col <= $colH; $col++) {
                 $val[$j] = $sheet->getCell($col . $row)->getValue();
                 $j++;
             }
             $temp[] = $val;
         }
+        //dd($temp);
         //...to database via model
         foreach ($temp as $entry) {
             $tr = new traffic();
-            $tr->date = $entry[1];
-            $tr->junc = $entry[2];
-            $tr->carCount = $entry[3];
+            $masa = 0;
+            if($entry[4] >= '1000'){
+                $masa = substr($entry[4], 0,2);}
+            else if ($entry[4] == '0'){
+                $masa = '00';}
+            else {
+                $masa = substr($entry[4], 0,1);}
+            $tr->time = Carbon::create($entry[1], $entry[2], $entry[3], $masa);
+            if($entry[5] =='Weekend')
+                $tr -> weekend = 1;
+            else
+                $tr -> weekend = 0;
+            $tr->collisionType = $entry[6];
+            $tr->injuryType = $entry[7];
+            $tr->primaryFactor = $entry[8];
+            $tr->reportedLocation = $entry[9];
+            $tr->lat = $entry[10];
+            $tr->long = $entry[11];
             $tr->save();
         }
 

@@ -27,6 +27,7 @@
                     <div class="col">
                         <label for="junc">Junction</label>
                         <select class="form-select" required aria-label="Please Select Junction" name="junc">
+                            <option value="">Select</option>
                             <option value="all">All</option>
                             <option value="">Not applicable</option>
                             <option value="1">One</option>
@@ -48,7 +49,8 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col">
-                        <button type="submit" class="position-absolute top-50 start-50 translate-middle-x btn btn-primary d-flex">Analyse</button>
+                        <button type="submit"
+                            class="position-absolute top-50 start-50 translate-middle-x btn btn-primary d-flex">Analyse</button>
                     </div>
                 </div>
             </div>

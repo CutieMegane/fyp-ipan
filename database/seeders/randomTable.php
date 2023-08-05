@@ -23,7 +23,7 @@ class randomTable extends Seeder
                 traffic::create([
                     'date' => $current,
                     'junc' => $k,
-                    'carCount' => mt_rand(300,1500),
+                    'carCount' => mt_rand(10,150),
                 ]);
             }
             
