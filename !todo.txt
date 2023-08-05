@@ -3,6 +3,21 @@
 - Charts on home
 - Save analysis
 - ??
+
+- First Graph 
+Relationship
+Year and Injury Type ( count )
+
+-Second Graph
+Relationship
+Year, Primary Factor and Injury Type ( count )
+
+-Third Graph 
+Relationship
+Injury Type and Weekend and Year
+
+
+
 - Profit!
 
 Done

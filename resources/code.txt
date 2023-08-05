@@ -302,6 +302,9 @@ class randomTable extends Seeder
     }
 }
 
+<input type="date" class="form-control" id="start" name="start">
+<input type="date" class="form-control" id="end" name="end">
 
+<a class="btn btn-primary" href="{{ route('new.analyze') }}" role="button">Page Analyze</a>
 
 'MasterRecordNumber','Year','Month','Day','Weekend','Hour','CollisionType','InjuryType','PrimaryFactor','ReportedLocation','Latitude','Longitude',

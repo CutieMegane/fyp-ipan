@@ -63,11 +63,11 @@ class trafficAnalyze extends Controller
                             $tr[$i] = [
                                 'date' => null,
                                 'junc' => $i,
-                                'carCount' => $val[$i-1],
+                                'carCount' => $val[$i - 1],
                             ];
                         }
                         $chartData = [
-                            
+
                             'title' => 'Number of cars in all junction within ' . $req->start . ' and ' . $req->end,
                             'x_label' => 'Junction',
                             'y_label' => "Number of cars",
@@ -79,29 +79,28 @@ class trafficAnalyze extends Controller
             } else if ($req->opr == 'avg') { //Operation average
                 $tr = [];
                 if ($req->start && $req->end) {
-                    if ($req->junc > 0 && $req->junc < 5){
-                    $val = traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->avg('carCount');
-                    $tr[$req->junc] = [
-                        'date' => null,
-                        'junc' => $req->junc,
-                        'carCount' => $val,
-                    ];
-                    $chartData = [
-                        'title' => 'Average number of cars in all junction within ' . $req->start . ' and ' . $req->end,
-                        'x_label' => 'Junction',
-                        'y_label' => "Number of cars",
-                        'x_value' =>  $req->junc,
-                        'data' => $val,
-                    ];
-                }
-                    else {
+                    if ($req->junc > 0 && $req->junc < 5) {
+                        $val = traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->avg('carCount');
+                        $tr[$req->junc] = [
+                            'date' => null,
+                            'junc' => $req->junc,
+                            'carCount' => $val,
+                        ];
+                        $chartData = [
+                            'title' => 'Average number of cars in all junction within ' . $req->start . ' and ' . $req->end,
+                            'x_label' => 'Junction',
+                            'y_label' => "Number of cars",
+                            'x_value' =>  $req->junc,
+                            'data' => $val,
+                        ];
+                    } else {
                         $val = array();
                         for ($i = 1; $i < 5; $i++) {
                             $val[] = traffic::where('junc', $i)->whereBetween('date', [$req->start, $req->end])->avg('carCount');
                             $tr[$i] = [
                                 'date' => null,
                                 'junc' => $i,
-                                'carCount' => $val[$i-1],
+                                'carCount' => $val[$i - 1],
                             ];
                         }
                         $chartData = [
@@ -110,6 +109,135 @@ class trafficAnalyze extends Controller
                             'y_label' => "Number of cars",
                             'x_value' => [1, 2, 3, 4],
                             'data' => $val,
+                        ];
+                    }
+                }
+            } 
+            else if ($req->opr == 'count') {// Operation count
+                $tr = [];
+                if ($req->start && $req->end) {
+                    if ($req->junc > 0 && $req->junc < 5) {
+                        $count = traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->count();
+
+                        $tr[$req->junc] = [
+                            'date' => null,
+                            'junc' => $req->junc,
+                            'recordCount' => $count,
+                        ];
+
+                        $chartData = [
+                            'title' => 'Number of records in ' . $req->junc . ' within ' . $req->start . ' and ' . $req->end,
+                            'x_label' => 'Junction',
+                            'y_label' => 'Number of Records',
+                            'x_value' => $req->junc,
+                            'data' => $count,
+                        ];
+                    } else {
+                        $counts = [];
+                        for ($i = 1; $i < 5; $i++) {
+                            $count = traffic::where('junc', $i)->whereBetween('date', [$req->start, $req->end])->count();
+
+                            $tr[$i] = [
+                                'date' => null,
+                                'junc' => $i,
+                                'recordCount' => $count,
+                            ];
+
+                            $counts[] = $count;
+                        }
+
+                        $chartData = [
+                            'title' => 'Number of records in all junctions within ' . $req->start . ' and ' . $req->end,
+                            'x_label' => 'Junction',
+                            'y_label' => 'Number of Records',
+                            'x_value' => [1, 2, 3, 4],
+                            'data' => $counts,
+                        ];
+                    }
+                }
+            } 
+            else if ($req->opr == 'max') {// Operation max
+                $tr = [];
+                if ($req->start && $req->end) {
+                    if ($req->junc > 0 && $req->junc < 5) {
+                        $maxValue = traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->max('carCount');
+
+                        $tr[$req->junc] = [
+                            'date' => null,
+                            'junc' => $req->junc,
+                            'maxCarCount' => $maxValue,
+                        ];
+
+                        $chartData = [
+                            'title' => 'Maximum number of cars in ' . $req->junc . ' within ' . $req->start . ' and ' . $req->end,
+                            'x_label' => 'Junction',
+                            'y_label' => 'Maximum Number of Cars',
+                            'x_value' => $req->junc,
+                            'data' => $maxValue,
+                        ];
+                    } else {
+                        $maxValues = [];
+                        for ($i = 1; $i < 5; $i++) {
+                            $maxValue = traffic::where('junc', $i)->whereBetween('date', [$req->start, $req->end])->max('carCount');
+
+                            $tr[$i] = [
+                                'date' => null,
+                                'junc' => $i,
+                                'maxCarCount' => $maxValue,
+                            ];
+
+                            $maxValues[] = $maxValue;
+                        }
+
+                        $chartData = [
+                            'title' => 'Maximum number of cars in all junctions within ' . $req->start . ' and ' . $req->end,
+                            'x_label' => 'Junction',
+                            'y_label' => 'Maximum Number of Cars',
+                            'x_value' => [1, 2, 3, 4],
+                            'data' => $maxValues,
+                        ];
+                    }
+                }
+            } 
+            else if ($req->opr == 'min') {// Operation min
+                $tr = [];
+                if ($req->start && $req->end) {
+                    if ($req->junc > 0 && $req->junc < 5) {
+                        $minValue = traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->min('carCount');
+
+                        $tr[$req->junc] = [
+                            'date' => null,
+                            'junc' => $req->junc,
+                            'minCarCount' => $minValue,
+                        ];
+
+                        $chartData = [
+                            'title' => 'Minimum number of cars in ' . $req->junc . ' within ' . $req->start . ' and ' . $req->end,
+                            'x_label' => 'Junction',
+                            'y_label' => 'Minimum Number of Cars',
+                            'x_value' => $req->junc,
+                            'data' => $minValue,
+                        ];
+                    } else {
+                        $minValues = [];
+                        for ($i = 1; $i < 5; $i++) {
+                            $minValue = traffic::where('junc', $i) ->whereBetween('date', [$req->start, $req->end])  ->min('carCount');
+
+                            $tr[$i] = [
+                                'date' => null,
+                                'junc' => $i,
+                                'minCarCount' => $minValue,
+                            ];
+
+                            $minValues[] = $minValue;
+                        }
+
+                        $chartData = [
+                            'title' => 'Minimum number of cars in all junctions within ' . $req->start . ' and ' . $req->end,
+                            'x_label' => 'Junction',
+                            'y_label' => 'Minimum Number of Cars',
+                            'x_value' => [1, 2, 3, 4],
+                            'data' => $minValues,
                         ];
                     }
                 }
@@ -180,17 +308,18 @@ class trafficAnalyze extends Controller
         foreach ($temp as $entry) {
             $tr = new traffic();
             $masa = 0;
-            if($entry[4] >= '1000'){
-                $masa = substr($entry[4], 0,2);}
-            else if ($entry[4] == '0'){
-                $masa = '00';}
-            else {
-                $masa = substr($entry[4], 0,1);}
+            if ($entry[4] >= '1000') {
+                $masa = substr($entry[4], 0, 2);
+            } else if ($entry[4] == '0') {
+                $masa = '00';
+            } else {
+                $masa = substr($entry[4], 0, 1);
+            }
             $tr->time = Carbon::create($entry[1], $entry[2], $entry[3], $masa);
-            if($entry[5] =='Weekend')
-                $tr -> weekend = 1;
+            if ($entry[5] == 'Weekend')
+                $tr->weekend = 1;
             else
-                $tr -> weekend = 0;
+                $tr->weekend = 0;
             $tr->collisionType = $entry[6];
             $tr->injuryType = $entry[7];
             $tr->primaryFactor = $entry[8];
