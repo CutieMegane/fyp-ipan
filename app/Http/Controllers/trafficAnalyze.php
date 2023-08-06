@@ -95,11 +95,11 @@ class trafficAnalyze extends Controller
                 //code to be executed if n is different from all labels;
                 $chartData = [
                     'chartType' => 'bar',
-                    'title' => 'Number of Injury ',
-                    'x_label' => 'Injury Type',
+                    'title' => 'Number of Fatal Accidents against Year ',
+                    'x_label' => 'Year',
                     'y_label' => "Number of Injury",
-                    'x_value' => ['Fatal', 'Incapacitating', 'Non-Incapacitating', 'No Injury/Unknown'],
-                    'data' => [10, 30, 100, 50],
+                    'x_value' => ['2018', '2019', '2020', '2021', '2022', '2023'],
+                    'data' => [13, 9, 9, 4, 8, 8],
                 ];
         }
         return view('new.home', compact('chartData', 'chartData2'));

@@ -43,6 +43,7 @@
                 <div class="col">
                     <label for="junc">Data Charts</label>
                     <select  onchange="location = this.options[this.selectedIndex].value;" class="form-select" required aria-label="Data Chart" name="homeCharts" id="homeCharts">
+                        <option value="/home/">Please select to change chart.</option>
                         <option value="/home/?c=1">Number of Accidents against Injury Type</option>
                         <option value="/home/?c=2">Number of Accidents against Year</option>
                         <option value="/home/?c=3">Count Injury Type Against Colision Type</option>
