@@ -62,7 +62,13 @@
                         @foreach ($tr as $t)
                             <tr>
                                 <th scope="row">{{ $t->time }}</th>
-                                <td>{{ $t->weekend }}</td>
+                                <td>
+                                    @if($t->weekend)
+                                    Weekend
+                                    @else
+                                    Weekday
+                                    @endif
+                                </td>
                                 <td>{{ $t->collisionType }}</td>
                                 <td>{{ $t->injuryType }}</td>
                                 <td>{{ $t->primaryFactor }}</td>
@@ -75,7 +81,13 @@
                         @foreach ($tr as $t)
                             <tr>
                                 <th scope="row">{{ $t['time'] }}</th>
-                                <td>{{ $t['weekend'] }}</td>
+                                <td>
+                                    @if($t['weekend'])
+                                    WeekEnd
+                                    @else
+                                    Weekday
+                                    @endif
+                                </td>
                                 <td>{{ $t['collisionType'] }}</td>
                                 <td>{{ $t['injuryType'] }}</td>
                                 <td>{{ $t['primaryFactor'] }}</td>
