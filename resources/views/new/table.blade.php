@@ -52,7 +52,7 @@
                         <th scope="col">Collision Type</th>
                         <th scope="col">Injury Type</th>
                         <th scope="col">Primary Factor</th>
-                        <th scope="col">reportedLocation</th>
+                        <th scope="col">Reported Location</th>
                         <th scope="col">Latitude</th>
                         <th scope="col">Longlitude</th>
                     </tr>
@@ -100,7 +100,6 @@
                 </tbody>
 
             </table>
-            {{-- @json($chartData) --}}
         </div>
     </div>
 @endsection
