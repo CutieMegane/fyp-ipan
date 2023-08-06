@@ -14,4 +14,5 @@ const mix = require('laravel-mix');
 mix.js("resources/js/app.js", "public/js")
     .vue()
     .sass("resources/sass/app.scss", "public/css")
-    .js("resources/js/theChart.js", "public/js");
+    .js("resources/js/theChart.js", "public/js")
+    .js("resources/js/theChart2.js", "public/js");

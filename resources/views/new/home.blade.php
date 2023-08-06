@@ -42,14 +42,13 @@
             <div class="row">
                 <div class="col">
                     <label for="junc">Data Charts</label>
-                    <select class="form-select" required aria-label="Data Chart" name="homeCharts" id="homeCharts">
-                        <option value="1">Count InjuryType against Year</option>
-                        <option value="2">No Accidents Against Year by Primary Factor</option>
-                        <option value="3">No of Accidents Against Year by Weekend</option>
-                        <option value="4">No of Fatal Accidents by Reported Location Against Year</option>
-                        <option value="5">No of Injury Type Against Colision Type</option>
-                        <option value="6">Count of Primary Factor Against Primary Factor</option>
-                        <option value="7">Injury Against Count Injury Type</option>
+                    <select  onchange="location = this.options[this.selectedIndex].value;" class="form-select" required aria-label="Data Chart" name="homeCharts" id="homeCharts">
+                        <option value="/home/?c=1">Number of Accidents against Injury Type</option>
+                        <option value="/home/?c=2">Number of Accidents against Year</option>
+                        <option value="/home/?c=3">Count Injury Type Against Colision Type</option>
+                        <option value="/home/?c=4">Count Injury Type Against Injury Type</option>
+                        <option value="/home/?c=5">No of Injury Type Against Colision Type</option>
+                        <option value="/home/?c=6">Count of Primary Factor Against Primary Factor</option>
                     </select>
                 </div>
             </div>
@@ -57,7 +56,7 @@
         <div class="container">
             <div class="card">
                 <div class="card-body">
-                    Chart PlaceHolder
+                    @include('new.chart')
                 </div>
             </div>
         </div>

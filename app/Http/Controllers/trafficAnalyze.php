@@ -13,9 +13,96 @@ class trafficAnalyze extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $req)
     {
-        return view('new.home');
+
+        $chartData = null;
+        $chartData2 = null;
+        switch ($req->c) {
+            case '2':
+                //code to be executed if n=label1;
+                $chartData = [
+                    'chartType' => 'line',
+                    'title' => 'Number of Accidents against Year',
+                    'x_label' => 'Year',
+                    'y_label' => "Number of Accidents",
+                    'x_value' => ['2018', '2019', '2020', '2021', '2022', '2023'],
+                    'data' => [43, 49, 63, 59, 94, 303],
+                ];
+                break;
+            case '3':
+                //code to be executed if n=label2;
+                $chartData = [
+                    'chartType' => 'bar',
+                    'title' => 'Count Injury Type Against Colision Type ',
+                    'x_label' => 'Colision Type',
+                    'y_label' => "Number of Injury",
+                    'x_value' => ['1-Car', '2-Car', '3+Car', 'Bus', 'Cyclist', 'Moped/Motorcycle', 'Pedestrian'],
+                    'data' => [5010, 16722, 1375, 431, 296, 502, 394],
+                ];
+                break;
+            case '4':
+                //code to be executed if n=label3;
+                $chartData = [
+                    'chartType' => 'bar',
+                    'title' => 'Injury Type Against Count Injury Type ',
+                    'x_label' => 'Injury Type',
+                    'y_label' => "Number of Injury",
+                    'x_value' => ['Fatal', 'Incapacitating', 'Non-Incapacitating', 'No Injury/Unknown'],
+                    'data' => [200, 800, 19525, 4359],
+                ];
+                break;
+            case '5':
+                //code to be executed if n=label3;
+                $chartData = [
+                    'chartType' => 'line',
+                    'title' => 'No of Accidents Against Year by Weekday ',
+                    'x_label' => 'Year',
+                    'y_label' => "Number of Accident",
+                    'x_value' => ['2018', '2019', '2020', '2021', '2022', '2023'],
+                    'data' => [8, 4, 6, 2, 4, 6],
+                ];
+                $chartData2 = [
+                    'chartType' => 'line',
+                    'title' => 'No of Accidents Against Year by Weekend ',
+                    'x_label' => 'Year',
+                    'y_label' => "Number of Accident",
+                    'x_value' => ['2018', '2019', '2020', '2021', '2022', '2023'],
+                    'data' => [5, 5, 3, 2, 4, 2],
+                ];
+                break;
+            case '6':
+                //code to be executed if n=label3;
+                $chartData = [
+                    'chartType' => 'line',
+                    'title' => 'Count InjuryType against Year  ',
+                    'x_label' => 'Year',
+                    'y_label' => "Number of Injury",
+                    'x_value' => ['2018', '2019', '2020', '2021', '2022', '2023'],
+                    'data' => [3121, 3074, 3270, 3269, 3335, 3456],
+                ];
+                $chartData2 = [
+                    'chartType' => 'line',
+                    'title' => 'Count InjuryType against Year ',
+                    'x_label' => 'Year',
+                    'y_label' => "Number of Injury",
+                    'x_value' => ['2018', '2019', '2020', '2021', '2022', '2023'],
+                    'data' => [865, 769, 854, 706, 707, 458],
+                ];
+                break;
+
+            default:
+                //code to be executed if n is different from all labels;
+                $chartData = [
+                    'chartType' => 'bar',
+                    'title' => 'Number of Injury ',
+                    'x_label' => 'Injury Type',
+                    'y_label' => "Number of Injury",
+                    'x_value' => ['Fatal', 'Incapacitating', 'Non-Incapacitating', 'No Injury/Unknown'],
+                    'data' => [10, 30, 100, 50],
+                ];
+        }
+        return view('new.home', compact('chartData', 'chartData2'));
     }
 
     /*
@@ -112,12 +199,11 @@ class trafficAnalyze extends Controller
                         ];
                     }
                 }
-            } 
-            else if ($req->opr == 'count') {// Operation count
+            } else if ($req->opr == 'count') { // Operation count
                 $tr = [];
                 if ($req->start && $req->end) {
                     if ($req->junc > 0 && $req->junc < 5) {
-                        $count = traffic::where('junc', $req->junc)->whereBetween('date', [$req->start, $req->end])->count();
+                        $count = traffic::where('junc', $req->junc)->whereBetween('time', [$req->start, $req->end])->count();
 
                         $tr[$req->junc] = [
                             'date' => null,
@@ -155,8 +241,7 @@ class trafficAnalyze extends Controller
                         ];
                     }
                 }
-            } 
-            else if ($req->opr == 'max') {// Operation max
+            } else if ($req->opr == 'max') { // Operation max
                 $tr = [];
                 if ($req->start && $req->end) {
                     if ($req->junc > 0 && $req->junc < 5) {
@@ -198,8 +283,7 @@ class trafficAnalyze extends Controller
                         ];
                     }
                 }
-            } 
-            else if ($req->opr == 'min') {// Operation min
+            } else if ($req->opr == 'min') { // Operation min
                 $tr = [];
                 if ($req->start && $req->end) {
                     if ($req->junc > 0 && $req->junc < 5) {
@@ -221,7 +305,7 @@ class trafficAnalyze extends Controller
                     } else {
                         $minValues = [];
                         for ($i = 1; $i < 5; $i++) {
-                            $minValue = traffic::where('junc', $i) ->whereBetween('date', [$req->start, $req->end])  ->min('carCount');
+                            $minValue = traffic::where('junc', $i)->whereBetween('date', [$req->start, $req->end])->min('carCount');
 
                             $tr[$i] = [
                                 'date' => null,
